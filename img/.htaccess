@@ -1,0 +1,3 @@
+order allow,deny
+deny from 83.222.23.219
+allow from all
