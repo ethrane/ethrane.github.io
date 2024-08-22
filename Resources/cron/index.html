@@ -1,0 +1,41 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+ 
+<h1 align="center">cron</h1>
+
+<br>
+<b>to run from root (or user=controls on lhocds):</b> crontab file.cron <br>
+<b>syntax:</b> 1,11,21,31,41,51 * * * * /cvs/cds/llo/web/scirun/S6/HardwareInjection/Details/bin/start_psinject -q -a <br>
+The '-a' means "automatic", i.e. it restarts psinject if it isn't 
+currently running, and '-q' means quiet. <br>
+<b>list cron tabs:</b> crontab -l <br>
+<b>remove cron tab:</b> crontab -r <br>
+<b>edit cron file:</b> crontab -e <br>
+<b>turn off cron emails with /dev/null:</b> 1,11,21,31,41,51 * * * * /home/ethrane/test/call_gmfd &amp;&gt; /dev/null <br>
+<b>better yet, write to a log file:</b> 1,11,21,31,41,51 * * * * /home/ethrane/test/call_gmfd &gt; /home/ethrane/test/call_gmfd.log
+
+<br><br>
+
+<b>run code only if it's not already running (perl):</b> <pre>
+    $top = `top -b -n1 -u ethrane | grep "copyData.pl" | wc`;
+    $top =~ s/ *//g;   $top =~ s/(.).*/\1/;
+    if ($top&gt;1) {
+        print "copyData.pl is already running\n";
+        exit;
+    }
+    else{
+    ...
+</pre>
+
+<b>cron log</b> is stored... /var/log/cron? <br>
+
+<br><br>
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
