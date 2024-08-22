@@ -1,0 +1,238 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+ 
+<h1 align="center">C++</h1>
+<br>
+
+<a href="Templates">Templates</a> - for getting started with C++ <br>
+<a href="objects">Objects</a> - an illustration of how to use objects <br>
+<li> (see also, <a href="MatrixTools">MatrixTools</a>)<br>
+<a href="Examples">Examples</a> - to reference <br>
+<br>
+
+<b>A Typical Header:</b> <br>
+#include &lt;iostream&gt; <br>
+#include &lt;stdlib.h&gt; <br>
+#include &lt;math.h&gt; <br>
+#include &lt;fstream&gt; <br>
+#include &lt;sstream&gt; <br>
+#include &lt;string&gt; <br>
+#include &lt;ctime&gt; <br>
+using namespace std; <br>
+int main(int argc, char *argv[]){ <br>
+ ... <br>
+ return 0; <br>
+} <br>
+<br>
+
+<b>To on compile on ldas-pcdev2 with libraries:</b> <br>
+FRVER=v6r24 <br>
+gcc -O -fexceptions -fPIC extras/example.c ${FRVER}/src/libFrame.a -I${FRVER}/src -lm -o bin/example <br>
+<br>
+
+<u><b>I/O</b></u> <br>
+<b>To control precision of cout statements:</b> cout.precision(10); <br>
+<b>To control precision of other streams:</b> outfile.precision(4); <br>
+<b>To force numbers into scientific notation:</b> cout.setf(ios::scientific); <br>
+<b>To force the "e" in 10e03 to be capitalized:</b> cout.setf:(ios::uppercase); <br>
+<b>To turn off these options follow this syntax:</b> cout.unsetf(ios::left); <br>
+<b>To cout a tab:</b> cout &lt;&lt; "\t"; <i>(Makefile's prefer tabs to spaces)</i><br> 
+<br>
+
+<b>To convert char to int:</b> <br>
+int Q=atoi(argv[4]); &nbsp; <i>(converts command line asci to an integer)</i><br>
+char hh='4'; <br>
+int zz=atoi(&hh;); &nbsp; <i>(in thise case, use a reference operator)</i><br>
+<br>
+<b>Functions for other asci conversions:</b> atof (floats), itoa (reverse)... <br>
+std::string itoa(int aV){ <br>
+  char buf[128]; <br>
+  sprintf(buf, "%d", aV); <br>
+  return buf; <br>
+}<br>
+<br>
+
+<b>sprintf example:</b> <pre>
+ char buf[128]; string x="cat"; string y="doughnuts"; int i=2;
+ sprintf(buf, "the %s ate %d %s",x.c_str(),i,y.c_str()); </pre>
+
+<b>sprintf flags:</b> <pre>
+ char   %c
+ float  %f
+ string %s
+ int    %d
+</pre>
+
+<b>To convert a string to a const *char:</b> <br>
+  string x=argv[1]; string y=".log"; string z=x+y; <br>
+  ifstream lfile(z.c_str()); <br>
+  //z.c_str() is a const *char <br>
+<br>
+
+<b>To convert string to double</b> <br>
+&nbsp;  #include &lt;sstream&gt; <br>
+&nbsp;  string x=argv[3]; <br>
+&nbsp;  double a; <br>
+&nbsp;  std::istringstream i(x);  i &gt;&gt; a; 
+ <br><br>
+
+<b>Manipulating Strings</b><br>
+<b>to cut/remove/erase letters from the end of a string:</b> <br>
+string x="file.data";<br>
+x.erase(x.length()-5,x.length()); <br>
+<i>Now x="file"</i> <br>
+<b>...from the beginning:</b> <br>
+ string prefix="dec-78"; <br>
+ prefix.erase(0,3);  <br>
+<i>Now prefix="-78".</i> <br>
+<b>to create an array of strings:</b>   std::string x[]={"sk1/ostop.mct", "sk1/othru.mct", "sk1/oshower.mct"};<br>
+<br>
+
+<b>Converting integers to doubles:</b> <br>
+int N=10; <br>
+double x=(double)N+3. <br>
+<b>Converting doubles to integers:</b> <br>
+  double a=1.3; <br>
+  int b=(int)a; //b has a value of 1 because we round <u>down</u> for positive ints<br>
+  a=-1.3; <br>
+  b=(int)a; //b has a value of -1 beacuse we round <u>up</u> for negative ints 
+<br><br>
+
+<b>random numbers:</b><br>
+<b>random int on [1,Max]:</b> int P(int MAX){return(rand()%MAX+1);} <br>
+<b>random double on (0,1):</b> 
+double P(){return(-(double)rand()/(double)(RAND_MAX+1)); <br>
+<br>
+
+<b>Logical Operators for Conditionals:</b> <i>and</i> &amp;&amp;, <i>or</i> || <br> 
+<b>Not to be confused with Bitwise Operators:</b> <i>e.g.</i> intersect=Trigger&Mask; <i>or</i> union=1|x; <i>or</i> notx=~x; <br><br>
+
+<b>Using a void function:</b><br>
+void spline(float x[],float y[],int n,float yp1,float ypn,float y2[]){ <br>
+if (yp1 &gt; 0.99e30) <br>
+    y2[1]=u[1]=0.0; <br>
+... <br>
+} <br>
+int main(int argc, char *argv[]){ <br>
+spline(x,y,N,yp1,ypn,y2); <br>
+...<br>
+}<br><br>
+
+<b>using void functions with pointers:</b> <br>
+void radec(double phi, double theta, double lst, double *ra, double *dec) { <br>
+&nbsp; cout &lt;&lt; phi &lt;&lt; endl; <br>
+&nbsp; *ra=1; <br>
+} <br>
+int main() { <br>
+&nbsp; . . . <br>
+&nbsp; radec(phi,theta,t,&r;,&d;) <br>
+} <br><br>
+
+<b>passing pointers to functions (functions of functions), and arrays of arbitrary size: </b> <br>
+void ksone(float data[], float (*func)(float)) { <br>
+&nbsp; cout &lt;&lt; data[3] &lt;&lt; endl; <br>
+&nbsp; float ff=(*func)(data[3]); <br>
+} <br>
+<br>
+
+<b>reading in a file:</b> <br>
+#include &lt;fstream&gt; <br>
+int main(int argc, char *argv[]){ <br>
+&nbsp; ifstream infile(argv[1]); <br>
+&nbsp; if(!infile){ <br>
+&nbsp; &nbsp; cout &lt;&lt; "Error: Can't locate input file." &lt;&lt; endl; <br>
+&nbsp; &nbsp; exit(1); <br>
+&nbsp; } <br>
+&nbsp; while(!infile.eof())<br>
+&nbsp; &nbsp; infile &gt;&gt; Trg &gt;&gt; t1 &gt;&gt; t2 &gt;&gt; t3; <br>
+&nbsp; }<br>
+infile.close(); <br>
+<br>
+
+<b>To determine if a file exists:</b> ifstream data("file.dat"); <br>
+if(data.fail()){cout &lt;&lt; "file.dat does not exist" &lt;&lt; endl;}<br>
+<br>
+
+<b>defining a macro: </b> &nbsp; <i>(an arcane holdover from C)</i> <br>
+&nbsp; #define MAX(a, b) ((a) &gt; (b) ? (a) : (b)) <br>
+<i>Is a greater than b?  If so, the value of MAX is a.  If not, the value is b.</i> <br>
+<b>conditional compiling:</b> <pre>
+#define SKX 1 
+int main(int argc, char *argv[]) { 
+... 
+#if SKX==1 
+        tP=pt(tsk1,24,0,24); 
+#endif </pre>
+<br>
+
+<b>to pause:</b> cin.get(); <br>
+<br>
+
+<b>a generalized for loop:</b> for(start; test; do;){} <br>
+<i><b>start</b> is executed at the beginning of the loop.<br>
+<b>test</b> is evaluated before every iteration and the code loops again only if it evaluates true. <br>
+<b>do</b> is evaluated at the end of each iteration.</i><br>
+<br>
+
+<b>to define a constant array of doubles:</b> <pre>
+const double S[20]={
+  0,1,2,3,4,5,6,7,8,9,
+  0,1,2,3,4,5,6,7,8,9
+};
+
+const double test[3][3]={
+  { 0,  0,  0},
+  { 0,  0,  1},
+  { 0,  0,  0}
+}; 
+
+const double test3d[][2][3]={
+  {
+    {1,2,3},       //[0][i][j]
+    {3,4,6}
+  },
+  {
+    {11,12,13},    //[1][i][j]
+    {13,14,16}
+  },
+  {
+    {21,22,23},
+    {23,24,26}
+  },
+  {
+    {31,32,33},
+    {33,34,36}
+  }
+};</pre>
+
+<b>to execute a shell command from within a C++ executable:</b> system("ls"); <br>
+<i>Note: the command issued via "system" must be a const char. </i> <br>
+<b>to execute a shell command that depends on C++ variables:</b><br>
+string x;<br>
+...<br>
+  char buffer[50]; <br>
+  sprintf(buffer, "wc %s",x.c_str()); <br>
+  system(buffer); <br>
+<i>issues the command: "wc x" for whatever value of x</i><br>
+<b>To access an environmental variable:</b>  char *homestring=getenv("HOME"); <br>
+<br>
+
+<b>To test if a variable you are using, x, is infinite or nan:</b><br>
+examine the values of isnan(x) and finite(x). <br>
+<br>
+
+<b>Are two strings the same?</b> if(strcmp(x,y)==0){ cout &lt;&lt; "x and y are the same: non-zero values tell you which character is different!"; } <br>
+<br><br>
+
+<b>To print something to screen when piping to /dev/null</b> syserror(0, "Starting up\n");
+<br><br>
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
