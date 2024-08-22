@@ -1,0 +1,54 @@
+<html>
+<h1 align="center">Getting Started with the Monash Gravity Group</h1>
+<br>
+
+<b>1. Sign up for a LIGO.ORG account</b><br>
+Go to <a href="https://my.ligo.org/">https://my.ligo.org</a>.<br>
+If you are already signed in, sign out.<br>
+Click on "LSC or Virgo Signup".<br>
+Choose membership in "OzGrav - Monash University". <br>
+<br>
+
+<b>2. Apply for a computing cluster account here:</b>
+<a href="http://ldg.ligo.org/">http://ldg.ligo.org</a><br><br>
+
+<b>3. Log on to the LIGO Data Grid:</b><br>
+# First, put these commands into your .zshrc file:<br>
+<pre>
+alias pcdev1="ssh eric.thrane@ldas-pcdev1.ligo.caltech.edu"
+</pre>
+# To log on, type pcdev3. You will be prompted for your password. 
+If you don't have an account on pcdev3, you can request one <a href="https://grouper.ligo.org/ldg/manage/">here</a>.
+Please open a ticket at the heldesk here henceforth for any issue: https://git.ligo.org/computing/helpdesk/-/issues
+<br><br>
+
+<b>4. Create your own web page to share results.</b><br>
+On pcdev1, mkdir ~/public_html/<br>
+Any content you put in public_html/ will be visible here: https://ldas-jobs.ligo.caltech.edu/~your_username.<br><br>
+
+<b>5. <a href="https://grouper.ligo.org/mailinglists/CBC">Sign up</a> to the CBC mailing list.</b> A full list of LSC groups is <a href="https://grouper.ligo.org/mailinglists/">here</a>.<br><br>
+
+<b>6. Set up TeamSpeak</b>: <a href="https://wiki.ligo.org/LSC/LIGOworkshop2015/TeamSpeakSetup">TeamSpeak</a><br><br>
+
+<b>7. join ozgrav:</b> https://www.ozgrav.org/join-ozgrav.html  <br><br>
+
+<b>8. Get set up on OzStar:</b> <a href="https://supercomputing.swin.edu.au/docs/1-getting_started/Accounts.html">link</a><br>
+Request an account.
+Once it is granted, you will need to join a project.<br><br>
+
+<hr><br>
+
+<b>Getting started with GWPopulation:</b><pre>
+Provided an already working local installation of anaconda, I needed to create a conda environment following instructions here. For an environment named 'cenv' (this name can be anything), this is done with conda create --name cenv.
+The environment is then activated with conda activate cenv.
+I could then install cupy via conda-forge using conda install -c conda-forge cupy as per this page.
+I also had to reinstall all of the usual packages on this environment like numpy, scipy, etc. most of which were automatically installed as dependencies when installing cupy. This could be done using the usual pip install <package> method.
+</pre>
+
+<br><hr><br>
+
+<p align="CENTER"><a< b><br>
+<a href="../">Back to Resources</a></p>
+<!--#include virtual="../../footer.shtml"-->
+</body>
+</html>
