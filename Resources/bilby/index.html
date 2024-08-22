@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+ 
+<h1 align="center">bilby and bilby_pipe</h1>
+
+<br>
+<b>ROQ:</b> FAQ <a href="ROQ Likelihood Cheat Sheet  (1).docx">doc</a><br><br>
+
+<b>installing bilby and bilby_pipe:</b>
+Personally, I found installing bilby and bilby_pipe with pip to be very difficult.
+My student encountered a lot of problems with python/pip version issues that we were unable to sort out.
+Fortunately, we were able to work around that using these <a href="https://lscsoft.docs.ligo.org/bilby_pipe/master/installation.html#python-installation">instructions</a> for conda installation.
+The key commands are:
+<pre>
+conda create -n bilby python=3.9
+conda activate bilby
+pip install --upgrade git+file://${HOME}/bilby_pipe
+</pre>
+
+These commands will upgrade to python3.9: ~/.conda/envs/bilby/bin/python. Pip also gets updated.
+After that,
+<pre>
+source /cvmfs/oasis.opensciencegrid.org/ligo/sw/conda/etc/profile.d/conda.sh
+conda activate igwn-py39
+</pre>
+Now your bilby_pipe should be installed:
+<pre>
+(igwn-py39) -bash-4.2$ which bilby_pipe
+/cvmfs/oasis.opensciencegrid.org/ligo/sw/conda/envs/igwn-py39/bin/bilby_pipe
+(igwn-py39) -bash-4.2$ bilby_pipe --version
+bilby_pipe=1.0.6: (CLEAN) 76a4ef2 2022-04-26 12:39:06 +0100 bilby=1.1.5:
+</pre>
+Put the following commands in your .bash_login:
+<pre>
+alias python='~/.conda/envs/bilby/bin/python'
+alias pip='~/.conda/envs/bilby/bin/pip'
+alias bilby_pipe='/cvmfs/oasis.opensciencegrid.org/ligo/sw/conda/envs/igwn-py39/bin/bilby_pipe'
+</pre>
+
+
+<br><br>
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
