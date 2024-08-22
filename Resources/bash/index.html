@@ -1,0 +1,53 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1 align="center">bash shell</h1>
+
+<b>To add to your path:</b> PATH=$PATH:$HOME/jpeg2eps_source <i>(no spaces allowed)</i> <br>
+<b>The bash startup file</b> (equivalent to a .cshrc file) is: .bashrc or .bash_login <br>
+<b>Autocompletion in bash:</b> kmgate () { ssh kmgate01.icrr.u-tokyo.ac.jp ; } <br>
+<b>aliasing:</b> alias ls='ls -G' &nbsp; <i>(color-coded ls)</i><br>
+<b>the bash equivalent of setenv:</b> export EDITOR="emacs -nw" <br>
+<br>
+<b>if statements:</b> <pre>
+if [ `hostname` == 'ldas-pcdev2' ]
+    then echo "pcdev2: sourcing sgwb/S5/matlab/matlab_script_32bit.sh"
+    source sgwb/S5/matlab/matlab_script_32bit.sh
+fi</pre>
+<b>bash script preamble:</b> #!/bin/bash <br>
+<b>bash loop:</b> <br>
+for i in {1..5} <br>
+do <br>
+&nbsp;&nbsp;echo "test $i" <br>
+done <br>
+<br>
+<b>Does a file exist?</b> if [ -f  $file ] <br>
+<br>
+
+<b>Add, mod, and multiply variables with double-parentheses:</b> trial=$((($@-1)%100 + 1))<br>
+<b>...or use math inside square brackets:</b> <br>
+x=$@<br>
+job=$[x+137]<br>
+<b>If-then statements:</b> <br>
+<pre>
+if [ $@ -eq 0 ]
+then
+  echo "job 0: exitting gracefully."
+  exit
+fi
+</pre>
+
+<br><br>
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
