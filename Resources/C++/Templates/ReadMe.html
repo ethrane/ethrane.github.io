@@ -1,0 +1,144 @@
+<html>
+<head><script type="text/javascript" src="https://web-static.archive.org/_static/js/bundle-playback.js?v=2mqEsuX0" charset="utf-8"></script>
+<script type="text/javascript" src="https://web-static.archive.org/_static/js/wombat.js?v=txqj7nKC" charset="utf-8"></script>
+<script>window.RufflePlayer=window.RufflePlayer||{};window.RufflePlayer.config={"autoplay":"on","unmuteOverlay":"hidden"};</script>
+<script type="text/javascript" src="https://web-static.archive.org/_static/js/ruffle/ruffle.js"></script>
+<script type="text/javascript">
+    __wm.init("https://web.archive.org/web");
+  __wm.wombat("https://users.monash.edu.au/~erict/Resources/C++/Templates/ReadMe.html","20221027050422","https://web.archive.org/","web","https://web-static.archive.org/_static/",
+	      "1666847062");
+</script>
+<link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/banner-styles.css?v=S1zqJCYt" />
+<link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/iconochive.css?v=qtvMKcIJ" />
+<!-- End Wayback Rewrite JS Include -->
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1 align="center">C++ Template</h1>
+
+<p>
+<br>
+To compile "Executable"--the executable described in this code--use the command: "make". 
+Use the command "make clean" to remove .o files.
+<br><br>
+
+MathTools.cpp contains sources code for useful mathematical tools.
+It is under construction.
+<br><br>
+
+Template.cpp contains the main() function.
+This is what gets called when you run your executable.
+You have to call your main function "main()", otherwise the compiler doesn't understand what to do.
+Notice that main() is a function of type integer.
+Also notice that it returns a value of 0 at the end of the code.
+main() must be an integer function.
+The fact that it returns 0 is conventional.
+It can, in principle, return something else, but this is only used for esoteric diagnostic processes.
+<br><br>
+
+Notice the main() function takes arguments argc and *argv[].
+If you run the executable on the command line, you may follow the command with special modifiers.  For example:
+</p>
+<ul>
+./Executable inputfile outputfile 300 ...
+</ul>
+<p>
+Maybe this command is telling your executable to read in "inputfile", do 300 years of Monte Carlo, then output the results to "outputfile"
+When you run Executable, the integer argc is set equal to the number of modifiers you include...in this case, argc=3.
+argv[1] is set to "inputfile" in this case because that is the first modifier.
+Here, argv[2] is set to "outputfile" and argv[3] is set to 300.
+The argv[] array is handy because it accepts strings and numbers.
+Then you can refer to these objects in your code...
+but only if you include argc and *argv[] as arguments of your main function!
+You should include them always by habit so they're there if you need them.
+<br><br>
+The #include &lt;something&gt; statements at the beginning of the code tell the compiler what code in the standard C++ library you'll be referencing in your main(). 
+To be safe, include all the <bracketed> include files in the template.
+&lt;iostream&gt; handles functions like cin and cout.
+&lt;fstream&gt; lets you read in data from files using ifstream.
+&lt;math.h&gt; knows about a bunch of common functions:
+</p>
+<ul><h6>
+double acos(double); <br>
+double asin(double); <br>
+double atan(double); <br>
+double atan2(double, double); <br>
+double ceil(double); <br>
+double cos(double); <br>
+double cosh(double); <br>
+double exp(double); <br>
+double fabs(double); <br>
+double floor(double); <br>
+double fmod(double, double); <br>
+double frexp(double, int *);  <br>
+double ldexp(double, int);  <br> 
+double log(double);  <br>
+double log10(double);  <br>
+double modf(double, double *);  <br>
+double pow(double, double); <br>
+double sin(double); <br>
+double sinh(double); <br>
+double sqrt(double); <br>
+double tan(double); <br>
+double tanh(double); <br>
+double erf(double); <br>
+double erfc(double); <br>
+double gamma(double); <br>
+double hypot(double, double); <br>
+double j0(double); <br>
+double j1(double); <br>
+double jn(int, double); <br>
+double lgamma(double); <br>
+double y0(double); <br>
+double y1(double); <br>
+double yn(int, double); <br>
+int    isnan(double); <br>
+double acosh(double); <br>
+double asinh(double); <br>
+double atanh(double); <br>
+double cbrt(double); <br>
+double expm1(double); <br>
+int    ilogb(double); <br>
+double log1p(double); <br>
+double logb(double); <br>
+double nextafter(double, double); <br>
+double remainder(double, double); <br>
+double rint(double); <br>
+double scalb(double, doub le); <br>
+</h6>
+</ul>
+<p>
+Most of the functions have self-explanatory names.
+I'll try to add explanations of less obvious ones later.
+<br><br>
+The #include "MathTools.h" statement includes source code that I have written myself in files MathTools.h and MathTools.cpp.
+Notice, that "MathTools.h" is in double-quotes and not brackets.
+That is because it is code that is not in the standard C++ library.
+Rather, I have added it myself.
+<br><br>
+The "using namespace std;" line tells the compiler that when you use common functions like "cout" and "endl", you mean what we usually mean when we call those functions.
+If you want the function "cout" to do something weird like print "Duh!" to the screen every time it's called, you can create a different namespace, and define "cout" to be something different.
+Usually, one uses the standard namespace.
+</p>
+</body></html><!--
+     FILE ARCHIVED ON 05:04:22 Oct 27, 2022 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 10:28:32 Aug 22, 2024.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 2.658
+  exclusion.robots: 0.024
+  exclusion.robots.policy: 0.014
+  esindex: 0.008
+  cdx.remote: 15.662
+  LoadShardBlock: 324.47 (3)
+  PetaboxLoader3.datanode: 201.118 (5)
+  PetaboxLoader3.resolve: 406.046 (4)
+  load_resource: 310.468 (2)
+-->
