@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+ 
+<h1 align="center">frames</h1>
+
+<br>
+<b>to dump the contents of a frame:</b> FrDump -d 5 -i /data/node149/frames/S5/L1/LHO/H-RDS_R_L1-8160/H-RDS_R_L1-816065600-64.gwf<br>
+<b>to list the channels in a frame:</b> FrChannels /data/node149/frames/S5/L1/LHO/H-RDS_R_L1-8160/H-RDS_R_L1-816065600-64.gwf
+<br><br>
+
+<b>Writing data to frames with pylal (code by Rory Smith)</b>:<pre>
+from pylal import Fr
+start_time = times[0]
+if start_time % 1 != 0:
+        raise ValueError('Series must start on integer second!')
+#chan_dict = {}
+#chan_dict['name']  = `X1:FOO-BAR'
+#chan_dict['data']  = data
+#chan_dict['start'] = start_time
+#chan_dict['dx']    = 1/float(fs)
+#chan_dict['type']  = 1  # I don't know what this means, but some integer value is needed
+# Fr.frputvect(filename, chan_dict)
+# P Rosado: create dictionaries
+#Dictionary for H1 data.
+H1_dict = {}
+H1_dict['name']  = 'H1:data'
+H1_dict['data']  = d.H1_data
+H1_dict['start'] = start_time
+H1_dict['dx']    = 1/float(ip.srate)
+H1_dict['type']  = 1  # For time series, type should be 1.
+#Dictionary for L1 data.
+L1_dict = {}
+L1_dict['name']  = 'L1:data'
+L1_dict['data']  = d.L1_data
+L1_dict['start'] = start_time
+L1_dict['dx']    = 1/float(ip.srate)
+L1_dict['type']  = 1  # For time series, type should be 1.
+Fr.frputvect(filename, [H1_dict, L1_dict])
+</pre>
+
+<br><br>
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
