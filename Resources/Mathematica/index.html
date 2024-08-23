@@ -1,0 +1,145 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1 align="center">Mathematica</h1>
+<br>
+
+<b>Mathematica will not open on my mac.</b><br>
+Try this to reset the Mathematica Library:<br>
+mv ~/Library/Mathematica/ ~/Desktop/<br><br>
+
+<b>Examples:</b><br>
+<a href="FractionalDerivatives.pdf">Fractional Derivatives</a> <br>
+<a href="TranslationOperator.nb">Translation Operator</a> <br>
+<a href="chirstoffel_TEMPLATE.nb">Christoffel Symbols</a> <br>
+<a href="Dipole.nb">Magnetic dipole gradients</a> <br>
+<br>
+
+<h2>Basics</h2>
+<b>defining a function:</b> f[x_] := x + x^2; <br>
+<b>implicit derivative:</b> <br>
+a[t_] := (c/G)*(J[t]/M[t]^2); <br>
+D[a[t], t] <br>
+<b>comments:</b> (* This will be commented out. *) <br>
+<b>Are two expressions equivalent?</b> Try <br>
+Simplify[y1[t]-y2[t]] <br>
+or ...<br>
+Simplify[y1[t]/y2[t]] <br>
+<br>
+
+<h2>Data and Arrays</h2> 
+
+<b>To read in data from a file and make a histogram:</b> <br>
+&lt;&lt; Graphics`MultipleListPlot` <br>
+&lt;&lt; Graphics`Graphics` <br>
+Data = ReadList["~ethrane/example.data", Number];<br>
+Histogram[Data, HistogramRange -&gt; {-1, 5}] <br>
+<br>
+
+<b>To read in a an array of data from a file:</b> <br>
+data = ReadList["~ethrane/test.dat", {Number, Number}] <br>
+<b>To refer to entries in an array:</b> y=data[[1,3]] <br>
+<br>
+
+<b>To interpolate between datapoints:</b>  p=Interpolation[data];<br>
+<i>data</i> is an array of the form, {{x1,f(x1)}...{xN,f(xN)}. &nbsp;
+The spline is by default cubic. &nbsp;
+<i>p</i> is now a function of x: you can plot it, or find p[13.2], etc. &nbsp;
+You probably <i>don't</i> need to mess around with "Spline" or "ListInterpolation". <br>
+<b>To do a linear spline:</b> p=Interpolation[data,InterpolationOrder-&gt;1] <br>
+(<i>This can be handy when the slope is large and a cubic spline gives an ugly interpolation.</i>) <br>
+<br>
+
+<b>To define an empty array:</b> flux = Array[0, {40,2}] <br>
+<i>The array name is "flux" and it has 40 entries each with 2 sub-entries.</i><br>
+<br>
+
+<b>To write/export data to a file:</b>
+Export["/Users/ethrane/Documents/Thesis/prob.dat", Prob];<br>
+"Prob" is a (previously defined) array of numbers and "CSV" is one of the formats supported by Mathematica.</br>
+<br>
+
+<b>To carry out a C++ style for-loop:</b><br>
+For[x=1,x&lt;=10, x++, <br>
+&nbsp; Prob[[x]] = y[Chi[[x]]]; <br>
+]<br>
+<i>Note: Mathematica arrays start at 1, not 0. <br>
+Also: arrays are referred to with a weird double bracket notation. <br>
+And finally: the syntax is similar to C++, but not the same. </i> <br>
+<br>
+
+<h2>Plotting</h2>
+<b>&lt;&lt; Graphics`Graphics`</b><br>
+<b>Log Plot</b> (logarithmic y-axis): LogPlot[f,{x,xmin,xmax}] <br>
+<b>Log-Linear Plot</b> (logarithmic x-axis): LogLinearPlot[...] <br>
+<b>Log-Log Plot:</b> LogLogPlot[...] <br>
+(You can also have LogLinearListPlot, etc.) <br>
+<b>To add a title (or label) to a plot:</b> PlotLabel -&gt; "E=1 PeV" <br>
+<b>To save/export an image as an .eps file:</b> Edit &gt; Save Selection As <br>
+<br>
+
+
+<h3>Plotting Examples</h3>
+
+<a href="case1.txt"><b>To make a shaded plot like this:</b></a> <br>
+<img src="/web/20240408191604im_/https://users.monash.edu.au/~erict/Resources/Mathematica/case1.jpg" width="250"><br>
+<br>
+<a href="shadow.txt"><b>To plot several things at once (multiple plot) with a legend:</b></a> <br>
+<img src="/web/20240408191604im_/https://users.monash.edu.au/~erict/Resources/Mathematica/shadow.jpeg" height="200"><br>
+
+<a href="gammas.txt"><b>To make a plot for publication:</b></a><br>
+<img src="/web/20240408191604im_/https://users.monash.edu.au/~erict/Resources/Mathematica/gammas.jpg" height="200"><br>
+Does anyone know, by the way, <b>how to control the thickness of trendlines in the legend</b>? &nbsp; If you need to modify them, you can hack the .eps file by searching for the string ".0075 w" (or something like it.) &nbsp; Try replacing it with "0.1 w". <br>
+<br>
+
+
+<h2>Kernel</h2>
+<b>To run a Mathematica script (.m file) from the UNIX command line:</b> <br>
+First: put this in your .bashrc file: <i>math () { /Applications/Mathematica\ 5.1.app/Contents/MacOS/MathKernel ; }</i> <br>
+Then: math &lt; script.m <br>
+Or: math &lt; script.m | <a href="math.pl">math.pl</a> <i>(to print only output lines in C++ style scientific notation.)</i> <br>
+<b>To put a comment in a .m script:</b> (* comment *) <br>
+<b>To make functions in your .m file (<a href="mytest.m">mytest.m</a>) available as a package:</b> <br>
+Put mytest.m file in ~/Library/Mathematica/Applications/ <i>(case 1)</i> <br>
+Or put it in a subdirectory, e.g.: ~/Library/Mathematica/Applications/testing/ &nbsp; <i>(case 2)</i> <br>
+Include like so: <br>
+ &nbsp; &lt;&lt;mytest` <i>(case 1)</i> <br>
+ &nbsp; &lt;&lt;testing`mytest` &nbsp; <i>(case 2)</i> <br>
+<br>
+
+
+<h2>Other</h2>
+<b>To load a package:</b> <br>
+&lt;&lt; Graphics`Graphics` <i>(Will reload the package every time the notebook is evaluated.)</i> <br>
+Needs["Graphics`Graphics`"] <i>(Will load the package the first time the notebook is evaluated.)</i> <br>
+<b>To clear memory:</b> ClearAll["Global`*"] <br>
+<b>To generate a random number:</b> Random[]<br>
+<b>To access the usage information for a function, mytest:</b> ?mytest <br>
+<b>To open the graphical formatting palette:</b> File &gt; Palettes &gt; Basic Typesetting <br>
+<br>
+
+<h2>More Advanced</h2>
+<b>Integration with assumptions:</b>
+Integrate[(1 - 2 G*M/r)^-1, {r, a, b}, 
+ Assumptions -&gt; {Im[a] == 0, Im[b] == 0, Im[G] == 0, Im[M] == 0, b &gt; a}]
+<br><br>
+
+<b>Plotting multiple curves with assumptions:</b><br>
+In this example, we assume different values of Lambda for each curve, but the same value of L.<br>
+<img src="/web/20240408191604im_/https://users.monash.edu.au/~erict/Resources/Mathematica/screenshot1.png" height="400"><br>
+<br>
+
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>

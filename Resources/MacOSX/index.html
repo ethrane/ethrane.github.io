@@ -1,0 +1,78 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1 align="center">MacOSX</h1>
+<br>
+
+<b>To get x-windows to open on a mac:</b>
+<ul>
+Open X11.
+<br>
+xhost +neutrino.phys.washington.edu (or what have you)
+<br>
+ssh -YC neutrino.phys.washington.edu ("Y" for x-windows, "C" for compression)
+</ul>
+
+<b>To get a scroll bar on your xwindow:</b> create a ~/.Xdefaults file and put in it: xterm*scrollBar: true <br>
+(Hold the option key to move the scroll bar.) <br>
+<b>To save more than 64 history lines:</b> add <i>xterm*saveLines: 10000</i> to the ~/.Xdefaults file <br>
+<b>To set the erase to be the delete key, add this to your .Xdefaults file:</b>
+<pre>
+*VT100.Translations: #override \
+              <key>BackSpace: string(0x7F)\n\
+              <key>Delete:    string("\033[3~")\n\
+              <key>Home:      string("\033[1~")\n\
+              <key>End:       string("\033[4~")
+*ttyModes: erase ^? 
+</pre>
+<br>
+
+<b>To paste in x-windows:</b> option-click<br><br>
+<b>To prevent ssh sessions from timing out on a mac:</b> create the file ~/.ssh/config <br>
+&nbsp; <i>Then put these lines into it:</i><br>
+&nbsp; Host *dante.u.washington.edu <br>
+&nbsp;         ServerAliveInterval 240 <br>
+<br>
+
+<b>If you create a .bashrc file</b> you will also need a .bash_profile wherein you source it. <br>
+<br>
+
+<b>to rename a terminal window (from bash):</b> echo -n -e "\033]0;name\007" <br>
+<br>
+
+<b>Example files</b><br>
+<a href="bashrc.txt">.bashrc</a> <br>
+<a href="Xdefaults.txt">.Xdefaults</a><br><br>
+
+<b>convert pdf document to grayscale:</b> <br>
+1. open pdf with Preview <br>
+2. Save As... <br>
+3. select Quart Filter = Gray Tone
+<br><br>
+
+<b>How to install aspell for emacs:</b><br>
+1. prepare for brew installation with this command: sudo chown -R $USER:admin /usr/local<br>
+2. install brew: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"<br>
+3. run: brew doctor<br>
+4. Take ownership of Homebrew: sudo chown -R $USER /Library/Caches/Homebrew/<br>
+5. run: brew install aspell<br>
+6. Add the following line to your .emacs file: (setq ispell-program-name "aspell")<br>
+7. Open emacs, and type M-x, ispell.<br><br>
+
+<b>Screen capture:</b><br>
+cmd-shift-3: capture the entire screen (saves to desktop file)<br>
+cmd-shift-4: capture selection<br><br>
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
