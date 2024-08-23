@@ -1,0 +1,52 @@
++First install jhbuild:
+#############
+git clone git://github.com/lpsinger/modulesets.git ~/modulesets
+mkdir -p ~/src && git clone git://git.gnome.org/jhbuild ~/src/jhbuild
+cd ~/src/jhbuild
+./autogen.sh
+make
+make install
+#############
+
++Then I add these magic lines to my .bash_profile (remember that the second line here is the solution proposed by Rory to that very weird problem we were finding in lal: two waveforms generated using exactly the same parameters would sometimes identical (as expected) and sometimes slightly (or significantly) different, in a random fashion):
+#############
+export PATH=$PATH:~/.local/bin
+export OMP_NUM_THREADS=1
+#############
+
++Then I make changes to the bash profile and take some other steps:
+#############
+source ~/.bash_profile
+mkdir -p ~/.config && cd ~/.config && ln -s ~/modulesets/jhbuildrc
+echo 'icc = True' >> ~/.config/my.jhbuildrc
+#############
+
++I build lalsuite (which takes a while, maybe ~30 minutes):
+#############
+jhbuild build lalsuite
+#############
+
++Then, I take an example .ini file, and adapt it to my purposes. This means, I change all user names and paths appropriately (to pablo.rosado). This .ini file is in:
+#############
+/home/pablo.rosado/projects/tbs/lalinference/online_pe.ini
+#############
+
++Now I run lalinference:
+#############
+lalinference_pipe -r /home/pablo.rosado/projects/tbs/lalinference/online_pe --gid G211117 --daglog-path /usr1/pablo.rosado/ online_pe.ini
+#############
+
++This will create a folder online_pe in the same directory. To have faster computations, Rory suggested to edit some files, so:
+#############
+cd /home/pablo.rosado/projects/tbs/lalinference/online_pe/lalinferencenest/IMRPhenomPv2pseudoFourPN/8s/
+#############
+
+And I edit files "engine_H1.sub", "engine_L1.sub", and "engine_H1L1.sub", so that, right below the line 'getenv = true' I add this line:
+#############
+Requirements = regexp("E5-2650 v4", TARGET.cpuinfo_model_name)
+#############
+
++Now, finally, I submit the condor jobs:
+#############
+condor_submit_dag /home/pablo.rosado/projects/tbs/lalinference/online_pe/multidag.dag
+#############

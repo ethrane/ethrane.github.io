@@ -1,0 +1,68 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf760
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red62\green0\blue63;\red251\green0\blue7;\red255\green255\blue11;
+\red16\green60\blue192;}
+{\*\expandedcolortbl;;\csgenericrgb\c24314\c0\c24706;\csgenericrgb\c98431\c0\c2745;\csgenericrgb\c100000\c100000\c4314;
+\csgenericrgb\c6275\c23529\c75294;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww16600\viewh8860\viewkind0
+\deftab720
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \
+\
+\
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\fs26 \cf2 \expnd0\expndtw0\kerning0
+http://software.ligo.org/docs/lalsuite/lalsimulation/modules.html\
+\
+\
+Hi Jolien,\
+\
+Internally for the PE samplers, your second option is correct.\'a0\
+\
+The PE codes use the parameters (sorry for being pedantic, I wanted to have all 15):\
+\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf3 thetaJN, the\'a0zenith angle between J and N\'a0
+\b0 \cf2 \
+
+\b \cf3 phiJL, azimuthal angle of L_N^\{hat\} on its cone about J
+\b0 \cf2 \
+
+\b \cf3 tilt1, zenith angle between S1 and L_N^\{hat\}
+\b0 \cf2 \
+
+\b \cf3 tilt2,\'a0zenith angle between S2 and L_N^\{hat\}
+\b0 \cf2 \
+
+\b \cf3 phi12, difference in azimuthal angle between S1, S2
+\b0 \cf2 \
+
+\b \cf3 a_spin1, magnitude of spin1
+\b0 \cf2 \
+
+\b \cf3 a_spin2, magnitude of spin2
+\b0 \cf2 \
+m1, mass 1\
+m2, mass 2\
+phase, reference phase\
+distance, luminosity distance\
+t_c, time at coalescence\
+ra, right ascension\
+dec, declination\
+psi, polarization angle\
+\
+(Some slightly different combination of parameters is used for sampling, and the post-processing pages then derive even more parameters).\'a0\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb4 The function\'a0XLALSimInspiralTransformPrecessingNewInitialConditions is then used to convert those internal angles to the S1x,y,z and S2x,y,z than the ChooseTD/ChooseFD LALSimulation routines expect.\'a0\cb1 \
+\cb4 Look at:\'a0{\field{\*\fldinst{HYPERLINK "https://versions.ligo.org/cgit/lalsuite/tree/lalinference/src/LALInferenceTemplate.c#n1118"}}{\fldrslt \cf5 \ul \ulc5 https://versions.ligo.org/cgit/lalsuite/tree/lalinference/src/LALInferenceTemplate.c#n1118}}\'a0where this transformation happens.\cb1 \
+\
+Then it's a matter of what the waveform approximants do with those cartesian spin values (most set the coordinate system with z along L and x in the (L_N , N) plane, while some with z along L_N and x pointing from the lowest mass object to the highest mass object).\
+\
+Cheers,\
+Vivien.}
