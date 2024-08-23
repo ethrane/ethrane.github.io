@@ -1,0 +1,19 @@
+#Servers
+mnphys=physics.umn.edu
+mnphys() { ssh -YC $mnphys ; }
+scratchy=scratchy.phys.washington.edu
+scratchy () { ssh -YC $scratchy ; }
+milhouse=milhouse.phys.washington.edu
+milhouse () { ssh -YC $milhouse ; }
+sl4test=sl4test.spa.umn.edu
+physlin24=physlin24.spa.umn.edu
+
+#Printers
+#printmn () { cat $1 | ssh $mnphys "cat - |lpr -P216 $2" ; }
+printmn () { cat $1 | ssh $mnphys "cat - |lpr -P231 $2" ; }
+
+#Expand path
+PATH=$PATH:./:$HOME/bin/
+
+#Redefine common commands
+alias du='du -hs'
