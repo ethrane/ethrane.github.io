@@ -1,0 +1,15 @@
+data=load('output_multipole_strain_ccspectra.job1.trial1.dat');
+
+%real part
+figure(1);
+plot(data(:,3),data(:,4),'r');
+xlabel('frequency (Hz)');
+ylabel('Cross-Correlation');
+hold on;
+
+%imaginary part
+plot(data(:,3),data(:,5),'b');
+
+figure(1),hold off
+print -depsc test.eps;
+
