@@ -1,0 +1,90 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1 align="center">cshell</h1>
+<br>
+
+<b><a href="examples">example scripts</a></b>
+
+<h3>Basics:</h3>
+<b>begin a cshell script with:</b> #! /bin/csh -f <br>
+<b>Note:</b> sometimes you <u>must</u> begin a cshell script with: #! /usr/bin/csh -f <br><br>
+
+<b>to continue/extend a command onto the next line:</b> end the line with a "\"<br>
+<b>to comment out a section of code:</b> <br>
+: &lt;&lt; '--snail--' <br>
+<i>This is commented out.</i> <br>
+--snail-- <br>
+<br>
+
+<b>assign a string to a variable:</b> set atm_file=red2wr.mct <br>
+<b>assign an integer to a variable:</b> set signal=20 <br>
+<b>assign a float to a variable:</b> set AT = `echo "scale=3;3/5" | bc` <br>
+<i>"scale" sets the number of decimal places.</i><br>
+<i>If you don't use "bc", all numbers must be treated like integers.</i><br>
+<b>to convert a float to an integer: </b> set t = `echo $t | awk '{printf"%.0f\n",$1}'` <br> 
+<i>The zero in "%.0f" specifies that zero digits to the right of the decimal be printed.</i> <br>
+<i>The "\n" prints a return carriage.</i> <br> 
+<b>assign a list of things to a variable:</b> set list = `ls *.zbs` <br>
+<b>To do basic math:</b> @ M = ($file_size / $signal) <br>
+<b>To do more complicated math:</b> use <i>bc</i> <br>
+<i>Notice variables are defined without a '$', but are referred to with a '$'.</i><br>
+<br>
+
+<b>To echo a variable without a new trailing line:</b> echo -n $x <br>
+<br>
+
+<b>to isolate the 3rd-4th letters of a file name:</b> echo $file | cut -c 3-4 <br>
+<b>to cut off the first 7 letters of a file name:</b> echo $file | cut -c 7- <br>
+<b>to cut off all but the last 7:</b> echo $file | cut -c -7 <br>
+<br>
+
+<b>to do an iterative loop:</b> <pre>
+set n = 0
+while ($n &lt; 10)
+    echo "file #"$n
+    @ n = ($n + 1)
+end </pre>
+
+<b>to loop over files in a directory:</b> <pre>
+set list = `ls *.mct`
+foreach file ($list)
+   echo $file
+end </pre>
+
+<b>if statements:</b> <pre>
+if ($n &lt; 5) then
+   echo $file
+endif </pre> <pre>
+if ($pre == 7 || $pre == 6) then 
+   ...
+endif </pre>
+
+<b>To determine if a file exists:</b> if(! -e $1) then <br>
+<b>To determine if a file has zero size:</b> if(! -z $1) then <br>
+<br> 
+
+<b>to access command line arguments:</b> echo $1 <br>
+If the command line has no arguments, $1, $2 have values of "". <br>
+<b>The number of command line arguments:</b> $#argv
+<br>
+
+<b>to overwrite a file:</b> &gt;! <br <br>
+
+<b>To exit a shell script:</b> exit <br>
+<br>
+
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
