@@ -1,0 +1,190 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1>FORTRAN</h1>
+<br>
+
+a very <b>simple template:</b> <br> <pre>
+      program example
+
+      real*8 variable
+      
+c     this line is commented out.
+      variable=3.4
+      write(*,*)variable   ! After the exclamation mark is commented out.
+      
+      stop
+      end
+</pre> 
+<u><i>Note</u>: spacing is important in Fortran; capitalization (case-sensitivity) is not. </i> <ul>
+column1: blank or with a "c" to indicate the rest of the line is a comment. <br>
+columns2-5: statement label (a number)<br>
+column 6: reserved for a single character to indicate a continuation of the previous line.<br>
+columns: 7-72: program statements <br>
+columns: &gt;73: not used </ul>
+
+<b>to compile</b> a simple fortran routine: g77 example.F <br> <br>
+
+<b>to define a function:</b><pre>
+ real function acosd(x)
+        implicit none
+        real x
+        real raddeg
+        parameter (raddeg = 180./3.14159)
+
+        acosd = raddeg * acos(x)
+        return
+        end
+
+</pre>
+
+<b>to define a subroutine:</b> <pre>
+ subroutine function(x)
+       ...
+       end
+</pre>
+
+<b>to call a function:</b><br>
+call func(a,b) <i>for void functions</i> <br>
+t=smear(x) <i>for functions that return a value</i> <br>
+<br>
+
+<b>comparatives:</b> &nbsp; 3.gt.1 &nbsp; 1.lt.3
+<br><br>
+
+<b>to raise to an exponent:</b> x=3**1.5<br>
+<br>
+
+<b>if statements:</b> <br>
+ &nbsp; if (x.gt.y) then <br>
+ &nbsp; &nbsp; &nbsp; write(*,*)'yay!' <br>
+ &nbsp; endif <br>
+<br>
+
+<b>defining varbs:</b> <br>
+integer s1,array(10)<br>
+real x,t/3.14/ <i>(The "/3.14/" sets the value of the varb) </i><br>
+logical var/.false./ <br>
+character*256 ericschar <i>(Characters have size = 2^n.)</i><br>
+character*8 lilchar <br>
+complex x <br>
+double precision y <br>
+real rad <i>(Before defining a paremter, declare its type.)</i> <br> 
+parameter (rad=2) <i>(If you want to set the variable value in the initial declaration.)</i>
+<br><br>
+
+<b>to open a file:</b>
+<ul>
+character*256 arg1 <br>
+call getarg(1,arg1) <br> 
+open(13,file=arg1) <br>
+close(13)
+</ul>
+<i>
+Here we define a character called arg1. 
+&nbsp;
+Then we fill arg1 with the first argument of the command line.
+ &nbsp;
+Then we open a file that's name we specified in the first command line argument.
+ &nbsp;
+We could replace this with </i>open(13,file='filename')<i> 
+&nbsp;
+ Then you have to close the file you opened.
+&nbsp;
+Careful...we used the ID #13 here, but some ID #'s are illegal because they are default ID's for FORTRAN.  
+This is beacuse FORTRAN is required by law to suck really hard.
+</i><br><br>
+
+<b>Another way to open a file in Super-K code:</b> <br>
+<u>first:</u> <br>
+setenv RFLIST rflist.$$.`hostname` <br>
+echo '10{{"'$filedir$file'",LOCAL,,RED,,,"recl=5670 status=old"}}' &gt;! $RFLIST <br>
+<u>then in source code:</u> <br>
+DATA LUNI1 /10/ <br>
+CALL SKOPENF(LUNI1, 0, 'Z', IERR) <br>
+CALL SKCLOSEF(LUNI1)<br>
+<br><br>
+
+<b>A note about logical unit numbers (lun):</b>
+<i>
+In the example above we wrote to lun=10 when we said </i>"write(10,*)varb"<i>. &nbsp;
+On some compilers you can not have lun's greater than 99. &nbsp;
+Also, some lun's are reserved and you can not use them.
+</i><br><br>
+
+<b>to book a paw histogram:</b> call hbook1(10,'Zenith Angle',51,-1.0,1.0,0.0) <br>
+<i>(ID#,title,number of bins,lower limit, upper limit, always 0.0) </i> <br>
+<b>to fill a paw hbook file:</b> call hf1(50,QISMSK,1.0) <br> 
+<i>where 50 is the logical unit number, QISMSK is some varb, and 1.0 is always there for some reason.</i><br>
+<br>
+
+<b>To continue a line that is getting too long:</b> <br>
+&nbsp; call set_rflist(10,file_name,'LOCAL',' ','RED',' ',' ', <br>
+&amp; &nbsp; &nbsp; <i>tab</i> &nbsp; &nbsp; 'recl=5670',' ',' ') <br>
+<b>or like this:</b><br>
+if(ichar(list(i)(j:j)).lt.ichar('0') .or. <br>
+     &gt;         ichar(list(i)(j:j)).gt.ichar('9')) goto 100 <br>
+<b>or like this:</b><pre>
+            if ((abs(ipnu(1)).eq.14.or.abs(ipnu(1)).eq.16)
+     $           .and.abs(mode).le.30) then </pre>
+<br>
+
+<b>scientific notation:</b> 3e-3 <i>(float)</i> 5.d-1 <i>(double)</i> 4.q3 <i>(quad)</i> <br>
+<br>
+
+<b>Reading and Writing:</b> <br>
+<b>write to screen:</b> write(*,*)'the value of varb is:',varb <br>
+<b>write to file lun=10:</b> write(10,*)varb <br>
+(If you haven't opened a file with lun=10, then this command will write to a file called "fort.10".) <br>
+<b>read from screen:</b> read(*,*)varb <br>
+<b>read from file lun=10:</b> read(10,*)varb <br>
+<br>
+
+<b>one way to get to label 1001 is like this:</b> <br>
+goto 1001 <br>
+<b>but you can also be sent there like so:</b><br>
+call skread(10,*1002,*1001,*170,*10) <br>
+<i>(The function skread can send you to label 1001 based on what happens when it reads in lun=10...note the astericks.) </i> <br><br>
+
+<b>Hex denoted with the z constructor:</b> parameter (LV_TRGAVAIL_FLAG = z'80000000')<br><br>
+
+<b>To run a shell script within a fortran program:</b><pre>
+      character*600 livetime_cmd
+      integer iret
+      ...
+c-----livetime.sh takes two arguments:
+c-----the values of the varb, NRUNSK
+      livetime_cmd = './livetime.sh NRUNSK NRUNSK'
+      iret = system(livetime_cmd)
+</pre><br>
+
+<b>to provide an area of shared storage between different subroutines (in f77):</b> <pre>
+program main
+    integer :: a, b
+    real :: c
+    common /d/ a, b, c
+  ...
+end program main
+
+subroutine jake()
+    integer :: a, b
+    real :: c
+    common /d/ a, b, c
+  ...
+end subroutine jake </pre>
+<b>f90</b> uses something called <b>"modules"</b> for this instead.</b><br>
+
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
