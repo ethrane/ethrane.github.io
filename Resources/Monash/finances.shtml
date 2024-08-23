@@ -1,0 +1,92 @@
+<html>
+<head><script type="text/javascript" src="https://web-static.archive.org/_static/js/bundle-playback.js?v=2mqEsuX0" charset="utf-8"></script>
+<script type="text/javascript" src="https://web-static.archive.org/_static/js/wombat.js?v=txqj7nKC" charset="utf-8"></script>
+<script>window.RufflePlayer=window.RufflePlayer||{};window.RufflePlayer.config={"autoplay":"on","unmuteOverlay":"hidden"};</script>
+<script type="text/javascript" src="https://web-static.archive.org/_static/js/ruffle/ruffle.js"></script>
+<script type="text/javascript">
+    __wm.init("https://web.archive.org/web");
+  __wm.wombat("https://users.monash.edu.au/~erict/Resources/Monash/finances.shtml","20240408191852","https://web.archive.org/","web","https://web-static.archive.org/_static/",
+	      "1712603932");
+</script>
+<link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/banner-styles.css?v=S1zqJCYt" />
+<link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/iconochive.css?v=qtvMKcIJ" />
+<!-- End Wayback Rewrite JS Include -->
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1 align="center">Monash University: Financial Reports</h1>
+<br>
+
+This page contains tips for balancing a Monash budget and interpreting financial reports.
+First, I recommend scheduling regular in-person meetings with someone from the finance team.<br><br>
+
+<b>Fund Balance.</b>
+Upon request, Finance will send you a "Fund Balance" document, which is not part of your regular Report.<br>
+<img src="/web/20240408191852im_/https://users.monash.edu.au/~erict/Resources/Monash/balances.png"><br>
+The report shows the finances as of some preparation date.
+The fund balnce lists your active revenue sources.
+The last column is the net balance; <b>negative means that you have money to spend</b>.
+<b>Money in Future Fellowships rolls over for the next year</b>; I assume this is also true of Discovery Projects.
+In addition to the money that rolls over, <b>there is a new contribution each year, e.g., $9500</b>.
+If you have start-up, or something else that you are using to pay a postdoc, the money in net balance <i>does not</i> include commitments to pay your postdoc.
+<br><br>
+
+<b>Fund Owner Summary.</b>
+This page is the front of your financial report.
+It has a <i>different sign convention</i> from the "Fund Balance" document: positive is good, negative is bad.<br>
+<img src="/web/20240408191852im_/https://users.monash.edu.au/~erict/Resources/Monash/summary.png"><br>
+The front page includes a "project end forecast balnce" column, which <i>does</i> include salary commitments, e.g., to postdocs...at least, this is true for the start-up fund; the FT salary fund does not appear to deduct commitments (everything).
+This is the key thing to look at to know what you have left over after salaries.
+<br><br>
+
+<b>Details by fund.</b>
+In order to see what you're spending on travel and on salaries--or to see what you have paid so far toward some salary commitment--turn to the "Detailed P and L by Fund" page.
+There is a different page for each fund.
+<br>
+<img src="/web/20240408191852im_/https://users.monash.edu.au/~erict/Resources/Monash/details.png"><br>
+Postdoc salaries are in the row labeled "Academic."
+Undergraduates are listed under "Casual and Sessional."
+There are also rows for "travel" and "infrastructure," which includes things like computers.
+<br><br>
+
+<b>Additional transaction details</b> are included below if you ever want to find out exactly how money was spent, item by item.<br><br>
+
+
+<h3>Other Tips</h3>
+
+<b>Future fellowships.</b> 
+If you have a Future Fellowship, do not charge any purchases to the "Salary Fund," use the "Project Fund."<br><br>
+
+<b>Non-compliant expenses:</b> visas for relocation (not allowed in an FT, but are allowed in a COE), entertainment, membership fees, more than one laptop per two years (FT).<br><br>
+
+
+<br>
+<p align="CENTER"><a< b><br>
+<a href="/web/20240408191852/https://users.monash.edu.au/~erict/Resources/">Back to Resources</a></p>
+<hr size="4">
+<img src="https://web.archive.org/web/20240408191852im_/http://users.monash.edu.au/~erict/img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
+<!--
+     FILE ARCHIVED ON 19:18:52 Apr 08, 2024 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 11:08:18 Aug 23, 2024.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 0.556
+  exclusion.robots: 0.027
+  exclusion.robots.policy: 0.015
+  esindex: 0.01
+  cdx.remote: 8.432
+  LoadShardBlock: 150.852 (3)
+  PetaboxLoader3.datanode: 78.259 (4)
+  PetaboxLoader3.resolve: 279.868 (2)
+  load_resource: 240.771
+-->
