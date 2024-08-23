@@ -8,138 +8,270 @@
 </head>
 
 <body>
-<h1 align="center">Mathematica</h1>
+<h1 align="center">MatLab</h1><br>
+
+<h3>Basics / General Information</h3>
+<b>Running matlab on condor:</b> <a href="https://htcondor-wiki.cs.wisc.edu/index.cgi/wiki?p=HowToRunMatlab">HTCondor page</a><br>
+<b>comment out something:</b> %this is commented out <br>
+<b>to comment out an entire section of code:</b> %{ this is commented out %} <br>
+<b>run a script not in the matlab path:</b> run('path/example.m') <br>
+<b>prepend a path (including subdirectories):</b> addpath(genpath('/archive/home/ethrane/matapps')); <br>
+<i>prepending takes precendent over existing paths</i><br>
+<b>prepend an additional path:</b> addpath /ldcg/matlab_r2007a/toolbox/matlab/iofun <br>
+<b>find function documentation (e.g., <i>addpath</i>):</b> help addpath <br>
+<b>find function (e.g., in the library (e.g., <i>dataread</i>):</b> which dataread <br>
+<b>To run MatLab from the command line:</b> matlab &lt; script.m <br>
+<b>To carry out a loop:</b> <br>
+for ii=1:24 <br>
+  stochastic(paramfile, jobfile, ii); <br>
+end <br>
+<b>miscellaneous debugging advice:</b> <br>
+In at least one case, the solution to this cryptic error message:<pre>
+  Segmentation violation occurred within signal handler.</pre>
+was to simply run matlab with the display option on. <br>
+<b>set a default value:</b> defval('Nindep',400); <br>
+<b>auto-indent:</b> open your .m file in an interactive matlab session. &nbsp;
+Select all the text. &nbsp; Select Text&gt;'Smart Indent'.
+<br>
+<b>inundated with warning messages?</b> type <i>warning off</i> to turn off warning messages<br>
+<b>to return the second, third, (etc.) variable from a function without having to define dummy variables (in matlab &gt;=2009):</b> <br>
+[~, ind] = sort(X)<br>
+<b>To debug with nodisplay:</b> <pre>
+  dbstop postprocess
+  postprocess
+  dbstep 98 </pre>The dbstep command here executes the first 98 commands, then stops.</i> <br>
+<b>To enter debug mode</b> put the command <i>keyboard</i> into your .m file. <br>
+Now you can see the values of variables from the matlab command line.<br>
+<b>To exit debug mode</b> type <i>return</i>. <br>
+<b>To quit the program without finishing:</b> <i>dbquit</i><br>
+<b>To continue:</b> dbcont <br>
+<b>to compile matlab code (from the matlab command line):</b> mcc -m stochastic <br>
+<b>to compile with no java, no display, and no multi-threading:</b>  mcc -R -nodisplay -R -nojvm -R -singleCompThread -m stochastic <br>
+The singleCompThread option can reduce matlab's tendency to request enormous chunks of memory that it doesn't end up using.<br>
+<b> to avoid warning messages about figures left open, close all your figures at the end of the function:</b> close all; <br>
+<b>to compile with paths not defined in your startup.m file:</b> mcc -v -R -nojvm -I "/home/gstef/matapps/releases/Utilities/current/misc/" <br>
+<b>command line arguments are passed as strings:</b><br>
+function stochastic(paramsFile, jobsFile, jobNumber) <br>
+&nbsp; params.jobNumber = strassign(jobNumber); <br>
+&nbsp; if params.jobNumber==0 <br>
+&nbsp; &nbsp; return; <br>
+&nbsp; end <br>
+... <br>
+return
+<br>
+<b>To save all the variables in your current work station into a .mat file:</b> save file.mat <br>
+<b>To save just one variable:</b> save('test.mat','CC'); <br>
+<b>To retrieve them:</b> oldstuff=open('file.mat') <br>
+<i>The variable x can be seen by typing: oldstuff.x </i><br>
+<b>Does a variable exist? (Has it been defined?) </b> exist('varb'); <br>
+<b>what type of variable is it?</b> class(varb) <br>
+<b>Delete/remove a file:</b> delete('map_1.mat'); <br>
+<b>Delete/remove a directory and everything in it (recursive rm):</b> rmdir('.inj/', 's'); <br>
+<b>Why are some variables passed at the command line corrupted?</b><br>
+Don't forget to do str2num(variable) if it is a number! <br>
+There is another handy function called num2str.<br>
+<b>shell commands from matlab:</b> !echo "hello"<br>
+[status, host] = system('hostname'); <br>
+<b>shell commands with variables:</b>
+[status, output] = system(['echo ', variable]);<br>
+<b>What is the process ID of my matlab session?</b><br>
+pid = feature('getpid')<br>
+This is an <a href="http://undocumentedmatlab.com/blog/undocumented-feature-function">undocumented matlab</a> feature.<br>
+
+<h3>Manipulating arrays</h3>
+<b>define a domain over which to calculate something:</b> x=0:.01:5; <br>
+<i>x is defined on (0,5) at increments of .01 </i> <br>
+<b>define vectors as columns of the matrix:</b> <br>
+ra=radec(:,1); %first column <br> 
+dec=radec(:,2); %second column <br>
+<b>To view the value of a variable/array</b> just type the variable and hit enter. <br>
+<b>To change an array element:</b> numFreqs(1,1)=1;<br>
+<b>To view the value of an array buried inside a data structure use a dot:</b> dataSC.data <br>
+<b>to flip a matrix upside down:</b> data = flipud(data) <br>
+<b>To fill a matlab cell:</b> etparams.parameters(1)={'resolution'}; <br>
+etparams.parameters(2)={'0.1'}; <br>
+<b>...in the context of a for-loop:</b> etparams.parameters{jj}=tmp; <br>
+<b>To display the contents of an array of char when all you see is, e.g., [1x91 char]:</b> char(inputfile) <br>
+<b>converting char to numbers:</b> <br>
+  [temp setnum]=regexp(matfilename,'SpHSet(.*)\.job.*','match','tokens'); <br>
+  setnum=str2num(char(setnum{1})); <br>
+<b>To find an element in an array satisfying a condition:</b> sigmaPix(RA==6&DECL;==0) <br>
+<b>comparing elements of two arrays of different sizes:</b> sum(ismember(f,g))
+<br>
+<b>convert a 2D array to a 1D array:</b> Q = q(:);<br>
+<b>convert a 1D array into a 2D array:</b> psd2D = reshape(psd1D, nfreqs, nsegments);
+<br>
+<b>to make a 2D array that contains many copies of a 1D array:</b><br>
+% s is 8000 x 1 and you want to make it 8000 x 100<br>
+T = 100;<br>
+q = repmat(s, 1, T);<br>
+% s is 1 x 8000 and you want to make it 100 x 8000<br>
+q = repmat(s, T, 1);<br>
+<b>kron</b> can be used to construct tensor products: <br>
+phase_n = kron(ones(length(xpos),1),exp(-2*pi*i*freqs(cut2)*lag)); <br>
+
+<h3>Plotting</h3>
+<b>line plot:</b> plot(x,y); <br>
+<b>Label axes:</b> xlabel('frequency (Hz)') <br>
+<b>Greek letters:</b> xlabel('\mu') <br>
+<b>To make a log plot:</b> semilogy(data5(:,3),data5(:,4),'r') <br>
+<b>To make a log-log plot:</b> loglog(...) <br>
+<b>To change the domain/range of a plot:</b> axis([20 2000 10e-46 10e-43])<br>
+<i>This command goes after the plot command.</i><br>
+<b>Bode plot:</b> <br>
+delay = tf(num,den); <br>
+bode(delay,{10^3,10^5}); <br>
+<b>scatter plot with the mapping package:</b> scatterm(dec,ra,15,'r','filled')<br>
+<i>This command puts a size=15 red dot at every data point in ra,dec space.</i> <br>
+<b>superimpose</b> a second dataset with blue dots on top of the existing map: scatterm(decp,rap,15,'b','filled') <br>
+<b>To print to an .eps file:</b> print -depsc test.eps; <br>
+(The "c" is for color.) <br>
+<b>To superimpose two plots:</b> use "hold" as in <a href="example_hold.txt">example_hold.m</a> <br>
+<b>Or like this:</b> <br>
+ &nbsp; plot(data(:,3),data(:,4),'r',data(:,3),data(:,5),'b'); <br>
+ &nbsp; legend('real','imaginary'); <br>
+<b>The figure(H) command</b> makes H the current figure, forces it to become visible, and raises it above all other figures on the screen.  If Figure H does not exist and H is an integer, a new figure is created with handle H. <br>
+<b>To make a histogram:</b> <br>
+f=load('jobs1-5.diff');<br>
+hist(f)<br>
+<b>subplots:</b> <br>
+subplot(2,1,1); plot(x1,y1) <br>
+subplot(2,1,2); plot(x2,y2)  <br>
+<b><a href="pretty.m">pretty.m script</a></b> to make figure fonts legible <br>
+<b>change the font size of everything on the current figure:</b> set(gca,'FontSize',20); <br>
+<b>then:</b> <br>
+h_xlabel = get(gca,'XLabel'); <br>
+set(h_xlabel,'FontSize',20);<br>
+<b>change the marker size on scatter plots:</b> <br>
+qq1=scatter(... <br>
+qq1Child=get(qq1,'Children');<br>
+set(qq1Child,'MarkerSize',8);<br>
+<b>change the marker size on errorbar plots:</b> <br>
+qq2=errorbar(...<br>
+set(qq2,'MarkerSize',13);<br>
+set(qq3,'MarkerSize',13);<br>
+<b>contour plots with a log axis:</b> <br>
+[C, h] = contour(A_ii, alpha_jj, z, zcontours);<br>
+x1 = C(1, 2:end);<br>
+y1 = C(2, 2:end);<br>
+semilogx(x1, y1, 'b', 'linewidth', 2);<br>
+<b>To make a legend for only some curves on your plot:</b> <br>
+h1 = plot(x1, y1) <br>
+...<br>
+legend([h1 h2 h3], 'stoch', 'CBC', 'combined', 'true'); <br>
+<b>colors</b> <br> <pre>
+% pink
+R2=loglog(sn.freqs, sn.ul0);
+set(R2,'Color',[1,0.4,0.6]);
+% purple
+Q2=loglog(sn.freqs, sn.h_sig);
+set(Q2,'Color',[0.5,0,0.5]);
+</pre>
+<b>Set tick marks manually:</b> set(gca, 'YTick', [1e-7 1e-5 1e-3]); <br>
+<b>Plotting two y-axes at the same time with different units (only works for eps printed with matlab_r2013a:</b><br>
+% use matlab 2014 <br>
+[ax, h] = plot2axes(@loglog, f, r, 'yscale', (4000/1e-12)); <br>
+fs = 16; <br>
+ylabel(ax(1), 'strain/pT', 'FontSize', fs); <br>
+ylabel(ax(2), 'm/T', 'FontSize', fs); <br>
+xlabel('f (Hz)', 'FontSize', fs); <br>
+set(gca, 'FontSize', fs); <br>
+grid on; <br>
+print('-dpng', 'coupling'); <br>
+
+<h3>Input/output</h3>
+<b>read in data from a text file:</b> load file.dat <br>
+<i>The data will be stored in a matrix called "file".</i> <br>
+<b>or:</b> data=load('file.dat') <br>
+<b>then make a plot from data in a file:</b> plot(data(:,3),data(:,4))<br>
+<b>Read in strings/text:</b> files=textread(filelist,'%s'); <br>
+<b>to print to screen:</b> fprintf('cet: E this is a test\n'); <br>
+<b>to read in an arbitrary (unformatted) text file:</b> <a href="read_doc.m">read_doc</a>
+<b>To save array variables as columns of ascii text:</b> <br>
+out = [t hp hx]; <br>
+save('wave_inj.dat', 'out', '-ASCII'); <br>
+<b>or to save a large char to file:</b> <br>
+fid=fopen('.inj/inj_params.txt','w+'); <br>
+fprintf(fid, '%c', out);<br>
+fclose(fid);<br>
+<b>To print variables to screen:</b> fprintf(1,'-------&gt; %f \n',jobNumber);<br>
+1 is for std:out, 2 is for std:err, or to... <br>
+<b>write to a file:</b><br>
+fid=fopen('file.out','w+');<br>
+fprintf(fid,'%f \n',jobNumber); <br>
+fclose(fid) <br>
+<b>to print in scientific notation:</b> fprintf(fid, '%f %e %e\n', tt(ii), HP(ii), HX(ii)); <br>
+<b>to print a fixed number of significant figures:</b>  fprintf('%5.2g\n', fluence)<br>
+<b>To get more precise numerical output from matlab:</b> format long <br>
+<b>Get a list of all the .mat files in a directory:</b> tmp = dir('week1/coherence_data*.mat') <br>
+This will return an array tmp with N entires, one for each .mat file matching the regular expression.
+The name of the 13th file in this array is: tmp(13).name<br>
+
+<h3>Manipulating strings and other text</h3>
+<b>compare two strings:</b> TF = strcmp('str1', 'str2'); <br>
+<b>Matlab regular expressions (replacement):</b> regexprep(g,'txt','mat'); <br>
+<b>Matlab regulgar expressions:</b> <pre>
+filename = '/data/node3/ethrane/file.mat';
+[temp2 node] = regexp(filename,'/data/node(.).*','match','tokens');
+</pre>
+<b>parsing space- or tab- delimited data:</b> trigdata = regexp(str,' ','split');
+<br>
+<b>add current date and time to a plot:</b> title(['(' datestr(now)  ')']);<br>
+
+<h3>Functions</h3>
+<b>define a mathematical function:</b> f=@(x) x^2; <br>
 <br>
 
-<b>Mathematica will not open on my mac.</b><br>
-Try this to reset the Mathematica Library:<br>
-mv ~/Library/Mathematica/ ~/Desktop/<br><br>
+<hr size="1"><br>
 
-<b>Examples:</b><br>
-<a href="FractionalDerivatives.pdf">Fractional Derivatives</a> <br>
-<a href="TranslationOperator.nb">Translation Operator</a> <br>
-<a href="chirstoffel_TEMPLATE.nb">Christoffel Symbols</a> <br>
-<a href="Dipole.nb">Magnetic dipole gradients</a> <br>
+<h3>Random numbers</h3>
+<b>random seeding:</b> randn('state', sum(100*clock)) <br>
+<li> <b>note</b>: <i>rand</i> and <i>randn</i> are seeded separately.
+<li> <b>note:</b> randn('state',x) will set the same seed for any value of x&ge;2^32 ~ 4.3e9 so make sure you do not set the seed value to be too large! <br>
+<li> For each seed value, the Mersenne Twister algorithm used by matlab, will generate ~2^19937 random numbers before repeating.
+<li> <a href="http://blogs.mathworks.com/loren/2008/11/13/new-ways-with-random-numbers-part-ii/">more on random numbers using matlab</a><br>
+<b>a cool randomizing feature with matlab:</b> randperm <br>
 <br>
 
-<h2>Basics</h2>
-<b>defining a function:</b> f[x_] := x + x^2; <br>
-<b>implicit derivative:</b> <br>
-a[t_] := (c/G)*(J[t]/M[t]^2); <br>
-D[a[t], t] <br>
-<b>comments:</b> (* This will be commented out. *) <br>
-<b>Are two expressions equivalent?</b> Try <br>
-Simplify[y1[t]-y2[t]] <br>
-or ...<br>
-Simplify[y1[t]/y2[t]] <br>
+<hr size="1"><br>
+
+<h3>Fourier transforms</h3>
+<a href="fft.shtml">matlab fft tutorial</a> <br>
+<a href="fft_eht.m">fft_eht.m</a>: a function to keep track of frequency bins when Fourier transforming time-series data.<br>
+<a href="ifft_eht.m">ifft_eht.m</a>: a function to keep track of frequency bins when inverse Fourier transforming<br>
+<a href="noise_gen.m">noise_gen.m</a>: a function to generate colored noise<br>
+<a href="cal_fluence.m">cal_fluence.m</a>: a function go calculate GW fluence from a time series; also demonstrates Parseval's theorem (if you comment out a few lines of code).<br>
 <br>
 
-<h2>Data and Arrays</h2> 
+<hr size="1"><br>
 
-<b>To read in data from a file and make a histogram:</b> <br>
-&lt;&lt; Graphics`MultipleListPlot` <br>
-&lt;&lt; Graphics`Graphics` <br>
-Data = ReadList["~ethrane/example.data", Number];<br>
-Histogram[Data, HistogramRange -&gt; {-1, 5}] <br>
+<h3>Common calculations</h3>
+<b>calculate the probability of getting max(SNR) &gt;&#961; given T trials and assuming norally-distributed variables:</b> <a href="probmax.m">probmax.m</a> <br>
+<b>simulated colored Gaussian noise:</b> <a href="gaussian_noise.m">gaussian_noise.m</a> <br>
+<b>use mod to ensure some variable x is defined on [1,N]:</b> mod(x-1, N) + 1<br>
 <br>
 
-<b>To read in a an array of data from a file:</b> <br>
-data = ReadList["~ethrane/test.dat", {Number, Number}] <br>
-<b>To refer to entries in an array:</b> y=data[[1,3]] <br>
-<br>
+<hr size="1"><br>
+<h3>Profiling matlab code</h3>
+<b>Note: matlab has to be running with the GUI on or there may be java errors!</b>
+The matlab profile option allows you to make html documentation of a matlab function.
+The documentation shows which functions were called, how long they took to run and other information.
+The functions are linked together with hypertext.
+This is a really convenient way to review/optimize/debug code.
+Here are the instructions.
+<li> open matlab
+<li> &gt;&gt; profile on
+<li> &gt;&gt; run_stochmap_ex1;  % run the code you want to profile
+<li> &gt;&gt; p = profile('info'); 
+<li> &gt;&gt; profsave(p,'profile_results')<br>
+These commands will create a directory called profile_results/ filled with html files of the form file#.html.
+Begin by opening file0.html.
+In our example, this will correspond to the main function, run_stochmap.m.
+Now you can step through each subroutine by following the hyperlinks from file0.html.
 
-<b>To interpolate between datapoints:</b>  p=Interpolation[data];<br>
-<i>data</i> is an array of the form, {{x1,f(x1)}...{xN,f(xN)}. &nbsp;
-The spline is by default cubic. &nbsp;
-<i>p</i> is now a function of x: you can plot it, or find p[13.2], etc. &nbsp;
-You probably <i>don't</i> need to mess around with "Spline" or "ListInterpolation". <br>
-<b>To do a linear spline:</b> p=Interpolation[data,InterpolationOrder-&gt;1] <br>
-(<i>This can be handy when the slope is large and a cubic spline gives an ugly interpolation.</i>) <br>
-<br>
-
-<b>To define an empty array:</b> flux = Array[0, {40,2}] <br>
-<i>The array name is "flux" and it has 40 entries each with 2 sub-entries.</i><br>
-<br>
-
-<b>To write/export data to a file:</b>
-Export["/Users/ethrane/Documents/Thesis/prob.dat", Prob];<br>
-"Prob" is a (previously defined) array of numbers and "CSV" is one of the formats supported by Mathematica.</br>
-<br>
-
-<b>To carry out a C++ style for-loop:</b><br>
-For[x=1,x&lt;=10, x++, <br>
-&nbsp; Prob[[x]] = y[Chi[[x]]]; <br>
-]<br>
-<i>Note: Mathematica arrays start at 1, not 0. <br>
-Also: arrays are referred to with a weird double bracket notation. <br>
-And finally: the syntax is similar to C++, but not the same. </i> <br>
-<br>
-
-<h2>Plotting</h2>
-<b>&lt;&lt; Graphics`Graphics`</b><br>
-<b>Log Plot</b> (logarithmic y-axis): LogPlot[f,{x,xmin,xmax}] <br>
-<b>Log-Linear Plot</b> (logarithmic x-axis): LogLinearPlot[...] <br>
-<b>Log-Log Plot:</b> LogLogPlot[...] <br>
-(You can also have LogLinearListPlot, etc.) <br>
-<b>To add a title (or label) to a plot:</b> PlotLabel -&gt; "E=1 PeV" <br>
-<b>To save/export an image as an .eps file:</b> Edit &gt; Save Selection As <br>
-<br>
-
-
-<h3>Plotting Examples</h3>
-
-<a href="case1.txt"><b>To make a shaded plot like this:</b></a> <br>
-<img src="/web/20240408191604im_/https://users.monash.edu.au/~erict/Resources/Mathematica/case1.jpg" width="250"><br>
-<br>
-<a href="shadow.txt"><b>To plot several things at once (multiple plot) with a legend:</b></a> <br>
-<img src="/web/20240408191604im_/https://users.monash.edu.au/~erict/Resources/Mathematica/shadow.jpeg" height="200"><br>
-
-<a href="gammas.txt"><b>To make a plot for publication:</b></a><br>
-<img src="/web/20240408191604im_/https://users.monash.edu.au/~erict/Resources/Mathematica/gammas.jpg" height="200"><br>
-Does anyone know, by the way, <b>how to control the thickness of trendlines in the legend</b>? &nbsp; If you need to modify them, you can hack the .eps file by searching for the string ".0075 w" (or something like it.) &nbsp; Try replacing it with "0.1 w". <br>
-<br>
-
-
-<h2>Kernel</h2>
-<b>To run a Mathematica script (.m file) from the UNIX command line:</b> <br>
-First: put this in your .bashrc file: <i>math () { /Applications/Mathematica\ 5.1.app/Contents/MacOS/MathKernel ; }</i> <br>
-Then: math &lt; script.m <br>
-Or: math &lt; script.m | <a href="math.pl">math.pl</a> <i>(to print only output lines in C++ style scientific notation.)</i> <br>
-<b>To put a comment in a .m script:</b> (* comment *) <br>
-<b>To make functions in your .m file (<a href="mytest.m">mytest.m</a>) available as a package:</b> <br>
-Put mytest.m file in ~/Library/Mathematica/Applications/ <i>(case 1)</i> <br>
-Or put it in a subdirectory, e.g.: ~/Library/Mathematica/Applications/testing/ &nbsp; <i>(case 2)</i> <br>
-Include like so: <br>
- &nbsp; &lt;&lt;mytest` <i>(case 1)</i> <br>
- &nbsp; &lt;&lt;testing`mytest` &nbsp; <i>(case 2)</i> <br>
-<br>
-
-
-<h2>Other</h2>
-<b>To load a package:</b> <br>
-&lt;&lt; Graphics`Graphics` <i>(Will reload the package every time the notebook is evaluated.)</i> <br>
-Needs["Graphics`Graphics`"] <i>(Will load the package the first time the notebook is evaluated.)</i> <br>
-<b>To clear memory:</b> ClearAll["Global`*"] <br>
-<b>To generate a random number:</b> Random[]<br>
-<b>To access the usage information for a function, mytest:</b> ?mytest <br>
-<b>To open the graphical formatting palette:</b> File &gt; Palettes &gt; Basic Typesetting <br>
-<br>
-
-<h2>More Advanced</h2>
-<b>Integration with assumptions:</b>
-Integrate[(1 - 2 G*M/r)^-1, {r, a, b}, 
- Assumptions -&gt; {Im[a] == 0, Im[b] == 0, Im[G] == 0, Im[M] == 0, b &gt; a}]
 <br><br>
-
-<b>Plotting multiple curves with assumptions:</b><br>
-In this example, we assume different values of Lambda for each curve, but the same value of L.<br>
-<img src="/web/20240408191604im_/https://users.monash.edu.au/~erict/Resources/Mathematica/screenshot1.png" height="400"><br>
-<br>
-
-
 <p align="CENTER"><a href="../">Back to Resources</a></p>
 <hr size="4">
 <img src="../../img/eric.thrane.png" width="168" height="18">
 
 </body>
-</html>
