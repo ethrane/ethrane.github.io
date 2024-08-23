@@ -1,0 +1,25 @@
+<< Graphics`Graphics`
+<< Graphics`Legend`
+ShowLegend[
+  LogPlot[
+    {S[0.25, LE], S[0.50, LE], S[0.75, LE], S[1.00, LE]}, {LE, 1, 7},
+    AxesLabel -> {"Log(E[GeV])", "Shadow" },
+    PlotRange -> {.01, 1},
+    PlotStyle -> {
+    {AbsoluteDashing[{10, 5}], RGBColor[1, 0, 0]},
+    {AbsoluteDashing[{5, 10}], RGBColor[0, 1, 0]},
+],
+  {
+    {
+      {
+        Graphics[{AbsoluteDashing[{
+        10, 5}], RGBColor[1, 0, 0], Line[{{0, 0}, {1, 0}}]}],
+        "z=0.25"
+        },
+Graphics[{RGBColor[0, 0, 0], Line[{{0, 0}, {1, 0}}]}],
+        "z=1.00"
+        }
+      },
+    LegendPosition -> {1, 0}
+    }
+  ]

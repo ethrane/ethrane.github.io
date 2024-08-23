@@ -1,0 +1,5 @@
+<< Graphics`FilledPlot`; <br>
+L[x_]:= ... <br>
+M[x_]:=Piecewise[{{L[x],x<=.2827},{0,x>.2827}}] <br>
+FilledPlot[{L[x],M[x]}, {x,0,1}, PlotRange->{0,.0003}, Fills->{Hue[1],GrayLevel[1]}, Ax\
+esLabel->[{x,L[x]}]] <br>

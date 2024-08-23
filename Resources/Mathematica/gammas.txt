@@ -1,0 +1,13 @@
+<< Graphics`Graphics`
+<< Graphics`Legend`
+Plot[{temp[x],stemp[x]},
+{x, Log[EnergyMin]/Log[10], Log[EnergyMax]/Log[10]
+FrameLabel -> {"Log(E[GeV])", ""},
+PlotLabel -> "dFlux/dE (arbitrary units) vs. log(E)",
+  DefaultFont->{"Times",12},
+PlotStyle -> {{GrayLevel[0], Thickness[0.0075]}, {
+        Thickness[0.0075], GrayLevel[0], Dashing[{.03}]}}, PlotLegend -> {"g=2","g=3"},
+LegendShadow -> {0, 0},
+LegendPosition -> {0.4, 0.0},
+LegendSize -> {.3, .3},
+Frame -> True
