@@ -1,0 +1,36 @@
+#! /bin/sed -f
+#keywords: if statements, next line, previous line
+#Enter the curly brackets every time you do NOT find the string "example".
+/example/ !{
+#Read in the next m=3 lines.
+#If the string "example" is found within these m+1 lines, enter the next set of
+#curly brackets and delete every line break.
+        N
+        N
+        N
+        /exmaple/ {
+                s/\n//g
+        }
+}
+#Now the line with "example" in it has been combined with the previous m lines
+#to create one long line.
+#Next, if the string of example is found enter the curly brackets.
+/example/ {
+#Read in the next line.  Delete the line break and everything to the right of
+#it, (i.e., the line we just read in.)
+        N
+        s/\n.*//
+#Repeat n-2 times.
+        N
+        s/\n.*//
+        N
+        s/\n.*//
+        N
+        s/\n.*//
+        N
+        s/\n.*//
+#After reading in the nth line, delete everything on both sides of the line
+#break and the line break itself
+        N
+        s/.*\n.*//
+}
