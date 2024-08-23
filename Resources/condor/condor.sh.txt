@@ -1,0 +1,3 @@
+#! /bin/bash
+source /archive/home/ethrane/sgwb/S5/matlab/matlab_script_64bit.sh
+/archive/home/ethrane/sph/rough_sim $@
