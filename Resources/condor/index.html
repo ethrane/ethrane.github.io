@@ -1,0 +1,83 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1>condor</h1>
+
+Sylvia Biscoveanu's first-time condor <a href="MyFirstCondor/your%20first%20condor%20submission.html">tutorial</a>.<br>
+
+<h3>useful commands for the unix command line</h3>
+<b>view submitted jobs:</b> condor_q <br>
+<b>view <i>my</i> submitted jobs:</b> <br>
+# define "qlist" in your .bash_login file <br>
+alias qlist='condor_q -global ethrane | sed s/.*Submitter.*// | sed /^$/D' <br>
+<b>kill all condor submissions:</b> <br>
+alias qkill='condor_rm user ethrane'<br>
+<b>submitting a dag file:</b> <br>
+#define this command in your .bash_login file: <br>
+alias qsub='condor_submit_dag' <br>
+# or this one to limit the number of jobs<br>
+alias presub='condor_submit_dag -maxjobs 40'<br>
+<b>information about your submissions (e.g., to learn why a job is on hold):</b> condor_q -analyze ID <br>
+<b>"better" analysis of condor job:</b> condor_q -better-analyze 5381361.0<br>
+(Check, e.g., how many machines match the conditions required by your sub file.)<br>
+<b>running a detailed condor_q:</b> condor_q -direct schedd -analyze your_user_name <br>
+<b>Why is my job on hold?</b> 
+condor_q -hold -long your_user_name grep '^HoldReason ='<br>
+<b>cancel a submission:</b> condor_rm ID <br>
+<b>condor_status</b>: lists all the nodes available, their memory, and other useful information</b><br>
+<b>condor_userprio -all:</b> lists condor users and their priority; (lower "Effective priority" numbers are given more resources<br>
+<b>condor_q -long ID#</b> gives detailed information about your job including "RequestMemory" (how much memory you asked for) and "ImageSize" (how much memory you ended up using<br>
+<b>condor_ssh_to_job</b> can be used to run top on the node where your job is actually executing.  This is useful for debugging.<br>
+
+<!--
+<b>errors about missing matlab libraries on ldas computers? </b> <br>
+Include this in the executable script: <br>
+source /archive/home/ethrane/sgwb/S5/matlab/matlab_script_64bit.sh <br>
+<br>
+-->
+
+<h3>sub files</h3>
+<a href="condor.sub">example sub file</a> <br>
+<b># require GPUs</b> (4g memory recommended) <br>
+Requirements = TARGET.WantGPU =?= True <br>
++WantGPU = True <br>
+<b># require 8-core CPUs</b> (8g memory recommended)<br>
+request_cpus = 8 <br>
+<b> # require extra memory</b> <br>
+<strike>RequestMemory = 4000</strike> (OBSOLETE since Oct 30, 2014) <br>
+request_memory = 4000 <br>
+<b># vetoing a bad node</b><br>
+Requirements = TARGET.Machine =!= "node14.mit.edu"<br>
+Requirements = TARGET.Machine =!= "node501.cluster.ldas.cit"<br>
+...or use a regex.  Note, you can find the full set of machine class adds by running condor_status -long.<br>
+
+<h3>dag files</b></h3>
+<a href="eric.dag">example dag file</a> <br>
+<a href="dag.pl">perl script</a> to make this dag file <br>
+
+<h3>debugging</h3>
+<b>My condor jobs are dying before I can ssh_to_job.</b>
+Change your executable call to be: your_executable || sleep 10000.
+When the executable dies, the node will proceed to the sleep command and give you time to ssh.<br>
+
+<h3>general advice</h3>
+<li>Make sure that the parent job does not fail with an error.&nbsp;
+If this happens the entire submission will fail.&nbsp;
+One way to avoid this fate is to put an if-then statement in your executable source code so that it automatically exits gracefully if jobNumber==0.
+<li> <a href="condor.sh.txt">example bash wrapper</a> for condor submission <br>
+<li>You can use top to assess your memory needs by watching "VIRT" while you run your job on the head node. VIRT is the relevant memory for the purposes of predicting what you will need for condor.
+<li>To make sure your condor job does not exceed memory requirements, you can use the command "ulimit -v" before running your job on the head node. This will let you know if your job exceeds memory requirements.
+<li>Running matlab on condor:</b> <a href="https://htcondor-wiki.cs.wisc.edu/index.cgi/wiki?p=HowToRunMatlab">HTCondor page</a><br><br>
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body></html>
