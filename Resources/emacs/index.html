@@ -1,0 +1,54 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+ 
+<h1>emacs</h1>
+<br>
+
+
+<b>To force emacs to open in a terminal window (and not a new x-window):</b> emacs -nw <br>
+<br>
+
+<b>spell check buffer:</b> `M-x ispell' <i>this notation means "press escape, then x, then the command"</i> <br>
+ &nbsp; r : <i>Enter a new spelling</i> <br>
+ &nbsp; spacebar : <i>leave the word unchanged</i> <br> 
+ &nbsp; a : <i>accept this spelling for all buffers during current session only</i> <br>
+ &nbsp; i : <i>accept this spelling and add it to personal dictionary</i> <br>
+ &nbsp; X : <i>halt spell checker at current location</i> <br>
+<br>
+
+<b>Installing ispell on a mac:</b> brew install ispell
+<br><br>
+
+<b>ctrl-r</b> to search backwards will help you find the end of a document <br>
+<b>option-click</b> lets you paste into an x11 window using a mac.  
+(This is a feature of x11, not emacs.) <br>
+<b>ctrl-/</b> = undo <br>
+<b>ctrl-L</b> centers the page so the cursor is in the middle of the screen. <br>
+<b>ctrl-x ctrl-x</b> toggles between the start of the document and where you first press ctrl-x. <br> 
+<b>ctrl-x ctrl-w</b> save as <br>
+<b>ctrl-x ctrl-s</b> save <br>
+<br>
+
+<b>M-&gt;</b> jump to the end of the document<br>
+<b>To page down:</b> ctrl-V <br>
+<b>To page up:</b> esc V <br>
+<b>To skip to a specific line number:</b> M-x goto-line <br>
+<br>
+
+<b>To reset the backspace and delete keys:</b> M-x normal-erase-is-backspace-mode <br>
+<b>To permanently fix backspace/delete issues</b> add this to your .emacs file: (By Jordi Burguet-Castell)<br>
+<i>(normal-erase-is-backspace-mode 1)</i> <br>
+<b>To enable very handy features like color-coding and place-saving</b> create a <a href="emacs.txt">.emacs</a> file in your home directory. (New <a href="my.emacs" ">.emacs file</a> updated on 230809.) <br>
+The x-window version of emacs can help you create this file interactively when you select the "Options" menu.
+The x-window version of emacs also has a nice FAQ section under the "Help" menu. <br>
+<br>
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
