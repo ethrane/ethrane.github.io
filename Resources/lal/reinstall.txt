@@ -1,0 +1,46 @@
+# REINSTALLING LALINFERENCE WITH JHBUILD
+# 9 December 2016
+# eric.thrane@ligo.org
+# I followed these instructions in order to get rid of an error, in which generateIMRPhenomPv2 
+# produced a different output every time I ran it.
+
+# STEP ONE: INSTALL JHBUILD
+# try starting at STEP TWO and only try STEP ONE if necessary
+# remove jhbuild stuff (try 
+rm -rf ~/modulesets/
+rm -rf ~/src/
+rm -rf ~/.config/
+
+# clone git repo
+git clone git://github.com/lpsinger/modulesets.git ~/modulesets
+mkdir -p ~/src && git clone git://git.gnome.org/jhbuild ~/src/jhbuild
+cd ~/src/jhbuild
+./autogen.sh
+make
+make install
+
+# Then I add these magic lines to my .bash_login if they're not there already.
+export PATH=$PATH:~/.local/bin
+export OMP_NUM_THREADS=1
+
+# source things
+source ~/.bash_login
+mkdir -p ~/.config && cd ~/.config && ln -s ~/modulesets/jhbuildrc
+
+# STEP TWO: UNSET LD_LIBRARY_PATH
+# If you don't, things in your LD_LIBRARY_PATH may interfere with git checkouts
+unset LD_LIBRARY_PATH
+
+# STEP THREE: MAKE SURE NOT TO USE ICC
+# do NOT run this command
+# echo 'icc = True' >> ~/.config/my.jhbuildrc
+# If your config files have icc=true, turn it off to avoid icc errors.
+
+# STEP FOUR: CLEAN UP BEFORE REBUILDING + REBUILD
+# Uninstall: 
+jhbuild uninstall $(jhbuild list lalsuite)
+# clean the git repo: 
+jhbuild cleanone $(jhbuild list lalsuite)
+# rebuild: 
+jhbuild build lalsuite
+
