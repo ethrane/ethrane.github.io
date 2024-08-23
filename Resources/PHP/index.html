@@ -1,0 +1,48 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1>PHP</h1>
+<br>
+
+PHP can be used to write programs for websites.
+Server information is automatically stored in PHP variables.
+<br><br>
+
+<b>Example:</b> writing a log that keeps track of visitors to your web site.<pre>
+&lt;?php
+$logfile= './log.txt';
+$logdetails=  date("F j, Y, g:i a") . ': ' .$_SERVER['REMOTE_ADDR']." ".$_SERVER['HTTP_REFERER']."\r\n";
+$fp = fopen($logfile, "a");
+fwrite($fp, $logdetails);
+fclose($fp);
+?&gt;
+</pre>
+
+<b>To call this script</b> (let's call it example.php) put the following lines into your .htaccess file (and .shtml or .php postfixes):<pre>
+RemoveHandler .html .htm
+AddType .php .htm .htm
+</pre>
+
+<b>Example 2:</b> generate user-specific webpage content. <br>
+E.g., your IP address is: <b>
+207.241.235.148</b>
+<br>
+Using this code: <pre>
+&lt;?php
+echo $_SERVER['REMOTE_ADDR'];
+?&gt;
+</pre>
+
+<br><br>
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<!--#include virtual="../../footer.html"-->
+</body>
+</html>

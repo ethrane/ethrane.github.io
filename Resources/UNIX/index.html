@@ -1,0 +1,264 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1>UNIX</h1>
+<br>
+
+<b>To determine the size of a directory:</b> du -hs directory/ <br>
+<i>The du command looks at all the subdirectories to calculate the directory size.</i> <br>
+
+<b>tar (e.g., for arxiv submission):</b> tar -cvvf ../grb.tar ../arxiv/ <br>
+<b>gzip a file:</b> gzip -c H1.tar &gt; H1.tar.gz <br>
+<b>unzip to a different directory:</b> gzip -cd file.tar.gz --uncompress &gt; ./file.tar<br>
+<i>This is handy if you directory permissions require that you copy the .gz file to one directory, but you need the contents in a different directory!</i><br>
+<b>unzip and untar:</b> gunzip file.gz &nbsp; &nbsp; tar -xvf file.tar<br>
+<br>
+
+<b>change owner to ethrane:</b> chown ethrane
+<br>
+<b>change permissions:</b> chmod u+x file <br>
+<i>In this example we add permission to user (owner) ("u") the ability to execute ("x").
+<br>
+To take away that permission, you'd type chmod u-x file.
+<br>
+You can modify permissions for three groups: user--aka the owner--("u"), group ("g"), and other--aka everyone else--("o").
+<br>
+To see what permissions are turned on/off, type ls -hl file.
+</i>
+<br><br>
+
+<b>scp over the web:</b> scp -r ethrane@dante.u.washington.edu:directory/file/ .
+<br><br>
+
+<b>symbolic linking:</b> ln -s file-or-directory link
+<li>the -s flag stands for "symbolic"
+<br>
+<b>setting unix variables</b>
+<li>set variable = value   &nbsp;    (in tsch or something)
+<li>varb=value          &nbsp;   (in bash)
+<br><br>
+
+<b>to see the value of a variable:</b> echo $variable <br>
+<b>to see what shell you're using:</b> echo $SHELL
+<li>the different types of shells: bash, tsch, <a href="../cshell">csh</a>...
+<br>
+<b>to pick a shell place at the beginning of script:</b> #! /usr/bin/bash
+<br>
+<b>To change the default shell:</b> <i>chsh</i> or <i>ypchsh</i><br>
+<b>to make comments in a shell script:</b> # followed by space, then comments
+<br><br>
+
+<b>to find a file by name:</b> find directory -name "filename_fragment*" -print<br>
+<b>to find a directory by name:</b> find . -type d -name "engrun" 2&gt; /dev/null <br>
+<b>to find a file by content:</b> grep "this string" *
+<ul>
+-l flag supresses line number
+<br>
+-i flag ignores case
+<br>
+-exec lpr {} ";" &nbsp; &nbsp; to do something to the file (like print it.)
+</ul>
+<b> in order to find strings buried in a binary file:</b> strings framefile.gwf<br>
+(You can pipe this to grep to look for a specific string.)<br>
+<b>to find/locate stuff on suketto:</b> find /home/atmpd/skrep/06b_new/atmpd/src -print | grep fillnt.F <br>
+<b>to find something on spartha:</b> find -name stochastic.m <br>
+<br>
+
+<b>to reboot:</b> su root &nbsp; &nbsp; <b>then:</b> reboot
+<br>
+<b>to force a terminal screen:</b> ctrl alt F1
+<br>
+<b>to leave the terminal screen:</b> ctrl alt F7
+<br>
+<b>to kill a job like you mean it:</b> kill -KILL 15786
+<br>
+<b>to suspend a foreground job:</b> ctrl-z <br>
+<b>to suspend a job from a different terminal:</b> kill -stop PID <br>
+<b>to restart it:</b> kill -cont PID <br>
+<b>to place a job under nohup once it is running:</b> disown -h 98937 <br>
+<b>to resume said job:</b> type <i>fg</i> in the command line.<br>
+<b>to move a job from foreground to background:</b> ctrl-z <i>(to suspend)</i>, then bg <br>
+<b>to force a stubborn job into the background</b> when it prefers the foreground: <br>
+echo "" &gt; dummy.input <br>
+apdetsim.sh &lt; dummy.input <br>
+<br>
+
+<b>recursive ls:</b> ls -R <br>
+<b>recursive grep:</b> grep -r <br>
+<b>ls but ignore certain files:</b> ls -I "*.txt" -I "*.csv" <br>
+<b>copy but ignore certain files:</b>  find H1/model/V4/ ! -name '*REF*' | xargs -i cp {} H1/model/test/ <br>
+<b>another xargs command:</b> find ./ -name "*.m" | xargs -i grep "lsc.electronics_gain" {} <br>
+<b>override safe delete:</b> alias rm rm <br>
+<b>or:</b> unalias rm <br>
+<b>reinstate safe delete:</b> alias rm rm -i <br>
+<br>
+<b>ssh keygen:</b> ssh-keygen -t dsa <br>
+This creates a file called id_dsa.pub in your .ssh/ directory. <br>
+Then append the id_dsa.pub file to the authorized_keys2 file in the .ssh directory of the computer/account you want to ssh to: <br>
+<i>e.g.</i> more id_dsa.pub &gt;&gt; ~atmpd/.ssh/authorized_keys2 <br>
+<b>(another SK example:)</b> scp ~ktc/id_dsa.pub skrep@kmcvs:kev.pub <br>
+more kev.pub &gt;&gt; .ssh/authorized_keys2 <i>(from kmcvs)</i> <br>
+<br>
+
+<b>to convert a .ps to a .pdf:</b> ps2pdf file.ps <br>
+<b>use convert to reduce the size of a file:</b> convert -density 200x200 -quality 60 -compress jpeg input.pdf output.pdf
+<br><br>
+
+<b>to add an executable to your path:</b> <br>
+open .csrch file in home directory <br>
+find the line where it says "# set path = "<br>
+add an additional path onto the end of the line, but before the right parenthetical. <br>
+<br>
+
+<b>to run a job in the background:</b> follow the command with an ampersand. <br>
+Then you can even log off and the job will keep running. <br>
+<br>
+
+<b>to write error output to a log file:</b> upmu1_low &gt;&amp; error.log <br>
+<br>
+
+<b>Set your environmental variables:</b> with a <a href="cshrc">.cshrc</a> file <br>
+<b>Create your own auto-completions:</b> by sourcing <a href="tcshrc.txt">.tcshrc</a> <br>
+<br>
+
+<b>Are two files different?</b> diff file1 file2 <br>
+<i>Lists all the differences between file1 and file 2.  If nothing happens, the files are the same.</i><br>
+<b>diff -q</b> suppresses the list of differences and says only if the files are different (when you want a simple answer.) <br>
+<br>
+
+<b>to list local files while sftp-ing:</b> lls <br>
+<b>to list only files that don't end in ".F":</b> ls -I "*.F" <br>
+<b>to list only directories:</b> find . -type d<br>
+<b>to change local directories:</b> lcd <br>
+<br>
+
+<b>to look at the first five lines of a file:</b> head -n5 filename <br>
+<b>to look at the last five lines of a file:</b> tails -n5 filename <br>
+<br>
+
+<b>to delete all the white space from a file:</b> cat file | tr -d "[:space:]" <br>
+<b>to remove all the new lines from a file:</b> cat file | tr -d "\n" <br>
+<b>to remove ^M's from excel exports:</b> tr '\r' '\n' &lt; eric.prn &gt; eric.txt <br>
+<b>to remove every instance of "insect" and "bug" from a file:</b> cat file | tr -ds "insect" "bug" <br>
+<br>
+<b>to sort with scientific notation:</b> sort -g file <br>
+<b>to delete consecutive duplicate lines from a file:</b> uniq file <br>
+<b>to delete non-consecutive duplicate lines from a file:</b> sort -bn nevthru.dat | uniq | more &gt; nevthru.del <br>
+<br>
+
+find and replace strings with <a href="../sed">sed</a> <br>
+
+<br>
+<b>to forward mail sent to your suketto account:</b> create a .forward file and put your email address in it<br>
+<br>
+
+<b>to determine the number of lines in a file:</b> set file_size = `wc -l $source_dir$source_file | awk '{print $1}' <br>
+<b>to determine the length of a filename:</b> echo $file | awk '{print length}' <br>
+wc (word count) returns *newlines* *words* *bytes* <br>
+awk '{print $1} isolates and prints the first number, which is the one we want. <br>
+<b>another example of awk:</b> grep "-78 6" cone.dat | awk '{print "hits="$3", alpha="$4}' <br>
+<i>this command prints the third word (hits) and forth word (alpha) on any line that contains "-78 6" </i><br>
+<br>
+
+<b>To force a script to use the $SHELL variable:</b> source script.sh <br>
+<i>(otherwise it can default to bash shell)</i>
+<br>
+
+<b>To get color code terminal windows:</b> include "setenv TERM xterm" in your .cshrc file. (cshell) <br>
+export LS_OPTIONS='--color=auto' <br>
+eval `dircolors` <br>
+alias ls='ls $LS_OPTIONS' (bash) <br>
+
+<br>
+
+<b>double less-than</b> is used to direct input to another command. &nbsp;
+Here, for example, we direct everything in between the two exclamation marks into the <i>cat</i> command: <br>
+cat &lt;&lt;! &gt;! $RFLIST <br>
+... <br>
+! <br>
+<br>
+
+<b>the name of the computer you are using is returned by the command:</b> hostname <br>
+<br>
+
+<b>to force a manual core dump:</b> gcore <i>pid</i> <br>
+creates core.<i>pid</i> <br>
+<br>
+
+<b>To view a .gif/.jpeg/etc. image file:</b> xv file.gif <br> 
+<b>or convert it to an eps:</b> convert test.gif test.eps <br>
+<i>Then you can open it with gsview.</i> <br>
+<br>
+
+<b>To fix errors associated with "X connection":</b> try removing entries from .ssh/known_hosts so they can refresh when you ssh -X <br>
+<br>
+
+<b>To rename a terminal window (from bash):</b> echo -n -e "\033]0;name\007" <br>
+<br>
+
+<b>To print remotely:</b> cat file.ps | ssh physics.umn.edu "cat - |lpr -P216" <br>
+<i>Make sure to render your file as a ps/pdf before printing it in this fashion.</i> <br>
+<b>To print on one side (or two):</b> <br>
+lpr -o sides=two-sided-long-edge filename <br>
+lpr -o sides=two-sided-short-edge filename <br>
+lpr -o sides=one-sided filename <br>
+<b>To control the orientation:</b> <br>
+lpr -o portrait filename <br>
+lpr -o landscape filename <br>
+<b>Check the status of print jobs:</b> lpstat 216 <br>
+<br>
+
+<b>unfreeze a terminal window:</b> ctrl-q <br>
+
+<b>list library dynamic dependencies:</b> ldd executable <br>
+<b>$LD_LIBRARY_PATH</b> is a colon-separated list of paths to shared-object libraries. <br>
+<b>how was a library compiled:</b> file /apps/Linux/gds/lib/libawg.so <br>
+/apps/Linux/gds/lib/libawg.so: ELF 32-bit LSB shared object, Intel 80386,
+version 1 (SYSV), not stripped <br>
+<b>Is my executable 32-bit or 64 bit?</b> file executable <br>
+<b>compiling 32-bit code on a 64-bit machine:</b> gcc -m32 <br>
+<b>compile library:</b> <pre>
+$(FRVER)/src/libFrame.a : untar.log
+        rm -f $(FRVER)/src/*.o
+        cd $(FRVER)/src; gcc -O -Wall -fexceptions -fPIC -c FrameL.c FrIO.c zlib/*.c -Izlib
+        rm -f $(FRVER)/src/libFrame.a
+        ar r $(FRVER)/src/libFrame.a $(FRVER)/src/*.o
+        ranlib $(FRVER)/src/libFrame.a
+</pre>
+<br>
+
+<b>repeat a command every second:</b>  watch -n 1 'echo "929033456 - `tconvert now`" | bc' <br> <br>
+
+<b>list all environmental variables:</b> printenv <br>
+<b>handy tool for checking library dependencies of an app:</b> gdd <i>executable</i> <br>
+<br>
+
+<b>pipe input to /dev/null</b> if you do not want it written to screen or to disk.
+<br><br>
+
+<b>How much memory is matlab using?</b> ulimit -a <br>
+Then run <i>top</i> to see what percentage of the memory matlab is using.<br><br>
+
+<b>Limit memory usage:</b> ulimit -v 4096000
+<br><br>
+
+<b>How do I search previous commands to determine, e.g., how I called some code yesterday?</b> <br>
+history  | grep "executable_name" | more<br><br>
+
+<b>How to find non-printable characters in a file?</b> (useful when porting a google doc to latex!)<br>
+grep '[^[:print:]]' main.tex<br><br>
+
+<br><br>
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<address><a href="mailto:ethrane@u.washington.edu">ethrane@u.washington.edu</a> </address>
+
+</body>
+</html>

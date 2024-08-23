@@ -1,0 +1,105 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1>sed</h1>
+<br>
+
+<h2>Metacharacters: (for the first argument of sed)</h2><pre>
+^   beginning of line
+$   end of line
+.   one character (in contrast with a period = \.)
+*   zero or more characters of the character or expression to the left
+[]  any one in the set
+[^] not in the set
+\&lt;  beginning of word
+\&gt;  end of word
+(pattern) remember the matched pattern ... pattern = \1 in the 2nd arg of sed
+x\{m\} repetition of x exactly m times
+x\{m,\} repetition of x for at least m times
+x\{m,n\} repitition of x between m and n times
+[0-9] one character that is a number
+[a-z] one lowercase character that is a letter
+[A-Z] one uppercase character that is a letter
+[aA-zZ] one character of either case that is a letter
+[0-9a-zA-Z] one character that is a number or a letter
+</pre>
+
+<h2>Examples</h2>
+<b>to delete lines from a file:</b> sed '1,3000d' red2wrA.mct &gt; red2wrB.mct <br>
+<b>to print certain lines from a file:</b> sed -n '45,50p' filename <br>
+<b>to print the nth line from a file:</b> sed -n 3p filename <i>(e.g., to print the third line.)</i><br>
+<b>To delete blank lines:</b> sed '/^$/d' filename <br>
+<b>to make a path (or any other string with unusual characters in it) safe for sed:</b> sed 's:[]\[\^\$\.\*\/]:\\\\&amp;:g' <br>
+<i>An explanation of how this line works is needed.</i> <br>
+<b>to reference a variable from within sed:</b> <br>
+ &nbsp; set arg = $n,$n\p <br>
+ &nbsp; sed -n "${arg}" $file <br>
+If the "$" is meant to be literal, use single quotes instead of double quotes. <br>
+<b>To replace every "double" with "float":</b> sed -e 's/double/float/g' doubles.h &gt; floats.h <br>
+<b>to replace the first comma in a line with a period:</b> echo $sentence | sed -e 's/,/./'<br>
+<i>The "s" means "substitute". &nbsp;
+The "-e" means there is a sed script to exectute. <br>
+<b>to replace the last comma in a line with a period:</b> echo $sentence | sed 's/\(.*\),/\1./' <br><br>
+The parentheses in the first argument store the enclosed expression. &nbsp;
+The "\"  tell sed that the parentheses are there to enclose something; they are not characters in the string you want to replace. &nbsp;
+The "." matches any character. &nbsp;
+The "*" is an example of a sed metacharacter: it means "zero or more of the character or expression to the left". &nbsp; 
+The "\1" refers back to the expression stored by the parentheses. &nbsp;
+So if $sentence == "1,2,3," the string to find and replace would be zero or more arbitrary characters \(.*\) followed by a comma: 1,2,3, &nbsp;
+Moving left to right, the matching is said to be "<b>greedy</b>" because at any point it will always match the longest possible string. &nbsp;
+Thus, the string chosen for replacement is 1,2,3, and not 1,2, or 1, &nbsp;
+The replacement string is all the characters to the left of the comma \1 followed by a period: 1,2,3.</i>
+<br><br>
+
+<h2>Scripts</h2>
+<b>To print only the string "124490.sukap004" from the output of qstat:</b> qstat @sukap010 | qlist.sed <br> <pre>
+#! /bin/sed -f
+#  qlist.sed
+/sukap/!d
+/@/d
+s/.*\(......\.sukap...\).*/\1/g
+</pre>
+The first command removes every line <b>except</b> ones with the string "sukap". &nbsp;
+There are still lines with strings like this left over: "atmpd@sukap010" and "calib@sukap010". &nbsp;
+The second command removes these lines by removing any line with an "@" in it. &nbsp;
+Now we want to isolate "124490.sukap004" from the other stuff in the same line. &nbsp;
+The third line looks for a string consisting of six characters (of any type) followed by ".sukap" followed by three more characters of any type. &nbsp;
+Since this expression is enclosed \( expression \) it is stored in \1. &nbsp;
+The .* on either side expand the string to include the entire rest of the line. &nbsp;
+But when we replace the string, we replace it with only the part included in \( \).
+<br><br>
+
+<b>Consecutive commands</b> in sed scripts are applied to the entire input stream before the next command is called. &nbsp;
+So <i>echo "222" | example.sed </i> will yield "444" (and not "333".) <pre>
+#! /bin/sed -f
+!  example.sed
+s/2/3/g
+s/3/4/g
+</pre>
+<br>
+
+<b>Delete <i>m</i> lines before and <i>n</i> lines after</b> every instance of "example" using <a href="cleanup.sed.txt">cleanup.sed</a>. <br>
+This example also illustrates <b>if statements</b> and manipulating the <b>next/previous</b> lines around a string.
+<br><br>
+
+<b>Embedding a sed script in a shell script:</b> <pre>
+        echo $y | sed '{ \
+            s/^/     /g \
+	    s/\&gt; \&lt;    1.000E-40   1.000E-40   / \
+            s/\(\&lt;[^ ]*\&gt;$\)/\1   \1/ \
+        }'
+</pre>
+<br>
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>

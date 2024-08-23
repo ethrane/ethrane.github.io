@@ -1,0 +1,597 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1>Python</h1>
+
+<h2>Basics</h2>
+
+<b>how to get information about a function?</b><br>
+Use the help function, e.g.,
+<pre>
+import nump as np
+help(np.random.chisquare)
+</pre>
+
+<b>which version of matplotlib am i using?</b>
+<pre>
+import matplotlib<br>
+matplotlib.__version__
+</pre>
+
+<b>comment out code:</b><pre>
+# this is commented out
+'''
+this whole section of code is commented out
+'''
+</pre>
+
+<b>How I do I debug? Is there a command similar to the keyboard command in matlab?</b>
+The analogous command is pdb.set_trace().
+<pre>
+import pdb
+# ... various code here ...
+# python stops when it gets to the next line
+pdb.set_trace()
+</pre>
+
+
+<hr>
+<h2>Useful tricks, gotchas, beginner's traps</h2>
+
+<b>Set default values for function parameters.</b><br>
+In this example, the function window will use default values of alpha=0.10 and type='tukey' unless otherwise specified.
+<pre>
+def window(ht, alpha=0.10, type='tukey'):
+</pre>
+When a function has defaults, you can call this function supplying only the variables you want, e.g.,
+<pre>
+window(ht, type='hann')
+</pre>
+Sometimes, it is useful to specify all of the parameter names to remember what goes where.
+For example,
+<pre>
+window(ht, alpha=0.25, type='tukey')
+</pre>
+might be useful if 
+<pre>
+window(ht, 0.25, type='tukey')
+</pre>
+will leave a user scratching their head asking: "What is 0.25?"<br><br>
+
+<b>ignore some outputs returned by a function.</b><br>
+Use an underscore in place of output that you do not want:
+<pre>
+f22w_low, f22w_high , _, _, _ = harvest_nest('chains_GR+/h22_Lev6_CoM', N)
+</pre>
+
+<b>Copying versus reference.</b><br>
+Often, you want to create a copy of some array.
+Naively, you might think that you can do so like this
+<pre>
+new_varb = old_varb
+</pre>
+However, this does not create a copy of old_varb.
+It creates a second reference to the same object!
+There are various ways to avoid this, for example,
+<pre>
+new_varb = 1.0*old_varb
+</pre>
+
+<b>The difference between 1 and 1.0.</b><br>
+Python treats 1 and 1.0 differently.
+The former is an integer while the latter is a float.
+Thus,
+<pre>
+1/8 = 0
+1./8 = 0.125
+</pre>
+
+<b>How do I find the path to python source code?</b><br>
+<pre>
+import inspect
+import ezgw.signals as signals
+inspect.getfile(signals)
+</pre>
+
+<b>equivalent of matlab's tic/toc function:</b><pre>
+from time import time as Time
+tstart = Time()
+</pre>
+
+<b>suppress warnings from importing a module:</b> <br>
+This is useful if you get a million error messages when importing pandas.
+<pre>
+import warnings
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore")
+    from pandas import read_csv
+</pre>
+
+<b>Suppress all warnings:</b> python -W ignore test_window_v6.py <br><br>
+
+<b>Vectorized Look-Up Table</b><br>
+In this example, we have a 4D look-up table called table.
+We want to pass it values for (gamma, thetaj, k, iota) and get the look-up value with a vectorized calculation.
+<pre>
+ang = []
+ind_gamma = np.round((gamma-gamma_min)/gamma_delta).astype(int)
+ind_thetaj = np.round((thetaj-thetaj_min)/thetaj_delta).astype(int)
+ind_k = np.round((k-k_min)/k_delta).astype(int)
+ind_iota = np.round((iota-iota_min)/iota_delta).astype(int)
+ang.append(table[[ind_gamma],[ind_thetaj],[ind_k],[ind_iota]])
+E_iso = Etot*np.array(ang)*0.5
+</pre>
+
+<b>What is the python equivalent of matlab's try-catch syntax?</b>
+<pre>
+# calculate E_iso                                                       
+try:
+    E_iso = cal_E_iso(logE0, Gamma, thetaj, k, iota)
+except:
+    pdb.set_trace()
+</pre>
+
+
+<hr>
+<h2>Logic</h2>
+
+<b>if, else, and, or:</b><br>
+<pre>
+if type=='hann':
+    wt = scisig.hann(L)
+elif type=='tukey':
+    wt = scisig.tukey(L, alpha, sym=True)
+elif type=='rect' or type=='rect_test'
+    wt = np.ones(ht.shape)
+else:
+    raise Exception('undefined window type')
+</pre>
+
+<b>for loops:</b>
+<pre>
+for x in range(0, nsamples):
+  print "%1.1f" % (m1[x])
+</pre>
+You can also make a for loop with enumerate.
+<pre>
+tt0 = np.arange(0.001, 0.035, 0.0001)
+for ii,t0 in enumerate(tt0):
+  rho_res[ii] = tools.snr_exp(resf, fnew, PSD)
+</pre>
+
+<b>Define a cut for elements in an array:</b>
+<pre>
+# notice that the parantheses are needed here to separate the inequalities
+cut = (epsilon&gt;Emin) &amp; (E0&gt;Emin)
+</pre>
+<br>
+
+
+<hr>
+<h2>Math</h2>
+
+<b>complex numbers.</b><br>
+In numpy, complex numbers are indicated by adding a j, which represents the sqrt(-1).
+For example, here is the square of a complex number:
+<pre>
+(1 + 3j)**2
+</pre>
+Be careful because, some operations return nan if you do not include a j to tell numpy you want a complex answer:
+<pre>
+np.sqrt(-1)=nan
+np.sqrt(-1+0j)=1j
+</pre>
+
+<b>generate a random number drawn from a normal distribution:</b> np.random.randn() <br><br>
+
+<b>set the random seed</b> np.random.seed(150914) <br><br>
+
+
+<hr>
+<h2>Input/Output</h2>
+
+<b>Printing results to the screen:</b> print "%i samples with %i parameters" % (nsamples, nparams)<br><br>
+
+<b>Printing number with significant digits:</b><pre>
+print "%.2f" % x         #print two significant digits
+print "%.3e" % x         #print three significant digits in sci notation
+</pre>
+
+<b>How do I generate a custom error message?</b><br>
+<pre>
+if len(hf1_m1) != len(f):
+    raise Exception('undefined window type')
+</pre>
+
+<b>print without a return carriage:</b> print "stuff",<br><br>
+
+<b>print elements in an array separated by a space:</b>
+<pre>
+print " ".join([str(x) for x in my_array[1:5]] )
+</pre>
+
+<b>concatenation two strings</b>
+<pre>
+out_dir = './surrogate_data/'
+file_name = out_dir + out_file_name
+</pre>
+
+<b>save an array to an asci file</b>
+<pre>
+np.savetxt(file_name, np.c_[times, hp_zero, hc_zero], fmt='%.6e')
+</pre>
+
+<b>load an array from an asci file</b>
+<pre>
+from astropy.io import ascii
+data_table = ascii.read("sim.out")
+data = data_table['col1']
+</pre>
+
+<b>load an array of complex-valued data from an asci file</b>
+<pre>
+data_table3=np.loadtxt("tidal_40Mpc_Lambda500.dat", dtype=complex)
+</pre>
+
+<b>if a directory path does not exist, create it:</b>
+<pre>
+if not os.path.exists(basedir):
+   os.makedirs(basedir)</pre>
+
+<b>Reading csv files:</b>
+<pre>
+from pandas import read_csv
+...
+table = read_csv('./param_table2_gamma.txt', header=None, delim_whitespace=True)
+</pre>
+
+<b>Reading json files:</b> 
+JSON (JavaScript Object Notation) is a data format.
+It is used by PyMultiNest.
+<pre>
+with open(stats_file) as f:
+    stats=json.load(f)
+    Z = stats["global evidence"]
+    f_best,tau_best = stats['modes'][0]['maximum']
+</pre>
+
+<b>Add an argument parser to your python script.</b><br>
+<pre>
+# usage: python call_tupak.py 1 -i ../5Gpc_injections.hdf5 -p ../prior_files/5Gpc.prior -d True -t True -f True
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("idx", type=int,
+                    help="index (aka job number); doubles as injection row")
+parser.add_argument("-i", "--injection_file",
+                    default='../5Gpc_injections.hdf5',
+                    help="hdf5 injection file; see generate_injections.py")
+parser.add_argument("-p", "--prior_file",
+                    default='../prior_files/5Gpc.prior', help="prior file")
+parser.add_argument("-d", "--dist_marg", default=True,
+                    help="distance marginalization flag")
+parser.add_argument("-t", "--time_marg", default=True,
+                    help="time marginalization flag")
+parser.add_argument("-f", "--phase_marg", default=True,
+                    help="phase marginalization flag")
+args = parser.parse_args()
+idx=args.idx
+injection_file=args.injection_file
+prior_file=args.prior_file
+dist=args.dist_marg
+time=args.time_marg
+phase=args.phase_marg
+</pre>
+
+
+<hr>
+<h2>Arrays, lists, dictionaries</h2>
+<b>Define an array:</b> z = [1, 0, 3]<br><br>
+
+<b>selecting a row from an array:</b> eta = dat[:,28] <br>
+Remember that python counts from zero.<br><br>
+
+<b>size of an array:</b> nsamples = dat.shape[0]+1<br><br>
+
+<b>length of array:</b> len(f)<br><br>
+
+<b>last element in an array:</b> last_val = hf1_m1[-1]<br><br>
+
+<b>exclude all but last element in an array:</b> tmp = hf1_m1[:-1] <br><br>
+
+<b>an array of zeros:</b> np.zeros(padlen)<br><br>
+
+<b>concatenate arrays:</b> hmem = np.concatenate((hmem, np.zeros(padlen)))<br><br>
+
+<b>concatenate arrays (method two):</b> Sh_tmp = np.transpose(np.vstack((f[band], P[:,z])))<br><br>
+
+<b>selecting some subset of an array using a matlab-like cut:</b> 
+hmemf = hmemf[ff&gt;fmin]<br><br>
+
+<b>selecting the first N elements in an array:</b> hmemf[1:5] <br><br>
+
+<b>How do I store a collection of disparate information in a single python object? Is there something like matlab structs?</b><br>
+The python object that handles this is called a dictionary.
+<pre>
+params = {}
+params['m1']=29
+params['m2']=30
+</pre>
+
+<b>Find the index of the maximum values along an axis.</b>
+<pre>
+idx = np.argmax(x)
+</pre>
+
+<b>create an array of evenly-spaced elements (up to but not including fmax):</b> f = np.arange(fmin, fmax, deltaF)<br>
+
+<b>create an array of evenly-spaced elements (up to and including fmax):</b>
+<pre>
+f = deltaF*np.linspace(1, numFreqs, numFreqs)
+</pre>
+
+<b>create an array of N evenly-spaced elements (up to and including fmax):</b>
+<pre>
+N = np.round(dur*fs)
+t = (1./fs) * np.linspace(0, N, N)
+</pre>
+
+<b>Repmat.</b><br>
+Use repmat to repeat copies of an array along a new dimension.
+<pre>
+import numpy.matlib
+Sh0_array = np.transpose(np.matlib.repmat(Sh0[:,1], nmarge, 1))
+</pre>
+
+<b>flatten</b><br>
+If you get a numpy array that has dimensions of, say, [1, 1, 91], you may want to flatten it to [,91], for example, if you want to plot it.
+<pre>
+E_iso = np.ndarray.flatten(np.isnan(cal_E_iso(1, 300, 2, 0, iota)))
+</pre>
+
+
+<hr>
+<h2>Modules</h2>
+
+<b>Overview</b><br>
+A lot of useful python functions are shared using packages called modules.
+For example, all but the most trivial math operations are carried out using the python module, numpy.
+If you type
+<pre>
+sqrt(3)
+</pre>
+into python, you will get an error.
+The necessary syntax is 
+<pre>
+import numpy as np
+np.sqrt(3)
+</pre>
+Here are the modules I use most:<br>
+<li> numpy: math<br>
+<li> scipy: interpolation, signal processing, other things<br>
+<li> pdb: debugging<br>
+<li> matplotlib: plotting, some signal processing such as psd<br>
+In order to install these modules, you can use pip, e.g.,
+<pre>
+pip install --user scipy
+</pre>
+The --user flag is necessary if you do not have admin privelages.
+In addition to these standard modules, I use<br>
+<li> <a href="http://users.monash.edu.au/~erict/Resources/ezgw/">ezgw</a>: easy tools for gravitational-wave data analysis<br>
+<li> tupak: parameter estimation for the masses<br>
+<li> pymultinest: nested sampling<br>
+<li> h5py: hdf5
+<li> gwsurrogate
+<br><br>
+
+<b>Importing part of a module.</b>
+It is often useful to import just some part of a module or to abbreviate a module name.
+Here is an example for how to do this with common conventions:
+<pre>
+import numpy as np
+import matplotlib.pyplot as plt
+import pdb
+import sys
+import ezgw.signals as signals
+</pre>
+
+<b>How do I import my own modules?</b><br>
+Create a directory to put your source code in, e.g., your_module.
+Next,
+<pre>
+cd your_module
+touch __init__.py
+</pre>
+Don't ask questions; just do it.
+(OK, if you reall want to know, google says, "The __init__.py files are required to make Python treat the directories as containing packages; this is done to prevent directories with a common name, such as string , from unintentionally hiding valid modules that occur later (deeper) on the module search path.")
+Next, modify your $PYTHONPATH variable (in your bashrc) to point to your new module:
+<pre>
+export PYTHONPATH=PATH_TO_YOUR_MODULE/your_module/:$PYTHONPATH
+</pre>
+Now you can import the module like so
+<pre>
+import your_module
+</pre>
+
+<b>Import code from some .py file without creating a directory with a __init__.py file:</b><br>
+The following command will run everything inside cal_E_iso.py.
+It will run the import commands at the beginning of this script.
+It will define variables and functions, which can be called below.
+<pre>
+from cal_E_iso import *
+</pre>
+
+<b>What if I get an error when I run some commonly used module command?</b>
+For example,
+<pre>
+from scipy.interpolate import interp1d
+ImportError: libptf77blas.so
+</pre>
+Often, these errors can be fixed by updating your code:
+<pre>
+pip install scipy --user --upgrade
+</pre>
+
+
+<hr>
+<h2>Plotting</h2>
+<b>Make a plot with a legend and readable (large font) labels:</b><br>
+<pre>
+plt.close('all')
+fig, ax = plt.subplots()
+ax.semilogy(iota, E_iso_A, 'b', label='fiducial')
+plt.axvline(x=thetaj_A, Color='b', LineStyle='--')
+ax.semilogy(iota, E_iso_B, 'r', label=r'$\Gamma=10$')
+ax.semilogy(iota, E_iso_C, 'g', label=r'$\theta_j=10^\circ$')
+plt.axvline(x=thetaj_C, Color='g', LineStyle='--')
+ax.semilogy(iota, E_iso_D, 'k', label=r'$k=2$')
+plt.xlabel(r'$\iota (deg)$', fontsize=18)
+plt.ylabel(r'$E_{iso}$', fontsize=18)
+
+# adjust the font size of the tick mark labels
+plt.xticks(fontsize=myfontsize)
+plt.yticks(fontsize=myfontsize)
+
+ax.legend(fontsize=18)
+plt.savefig('img/plot_iota.png')
+</pre>
+
+<b>adding a vertical line:</b> plt.axvline(x=15) <br><br>
+
+<b>Histogram with legend.</b>
+<pre>
+plt.close('all')
+fig, ax = plt.subplots()
+bins = np.linspace(3600, 4000, 20)
+# The variable alpha controls the transparency of each histogram
+ax.hist(-np.array(lzn), bins, alpha=0.5, label='exact')
+ax.hist(-np.array(lzn0), bins, alpha=0.5, label='estimate')
+plt.xlabel('-log(ZN)')
+legend = ax.legend(loc='upper right', shadow=True)
+plt.savefig('img/histo.png')
+</pre>
+
+<b>Scatter plot saved to file.</b>
+<pre>
+fig = plt.figure()
+plt.plot(f22, f33, "bo")
+plt.plot(f22_j0, f33_j0, "rx")
+plt.xlabel(r'$f_{22}$ (Hz)', fontsize=18)
+plt.ylabel(r'$f_{33}$ (Hz)', fontsize=18);
+plt.savefig('f22_f33.png');  plt.savefig('f22_f33.pdf')
+</pre>
+
+<b>Using latex in labels.</b>
+The following commands will do it...
+<pre>
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+</pre>
+...but an easier solution is to modify your matplotlibrc file to include the following commands:
+<pre>
+backend: Agg
+text.usetex : true
+font.family : Times New Roman
+</pre>
+To find your matplotlibrc file, try the following command from the unix command line:
+<pre>
+/home/ethrane/.local/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc
+</pre>
+The settings in this file control matplotlib.
+If you do not have one, you can create one here: ~/.matplotlib/matplotlibrc<br><br>
+
+<b>How do I get rid of this matplotlib error?</b>
+<pre>
+ImportError: No module named Tkinter
+</pre>
+Make sure that the backend variable is correctly set in your matplotlibrc file
+<pre>
+#backend      : TkAgg
+backend      : Agg
+</pre>
+Make sure that you edit the correct matplotlibrc as you may have more than one copy.
+You can find the one that your python is pointing to by running this command from the unix command line:
+<pre>
+/home/ethrane/.local/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc
+</pre>
+
+<b>Plot with two different horizontal axes.</b>
+<pre>
+plt.close('all')
+fig = plt.figure(figsize=(6,4))
+ax1 = fig.add_subplot(111)
+ax2 = ax1.twiny()
+# N events x-axis
+ax1.plot(np.sqrt(N), 1000*tcut, 'b')
+# normalised inverse distance
+ax2.plot(N, 1000*tcut, 'b')
+ax2.cla()
+# tick function
+def tick_function(X):
+V = N
+return ["%1i" % z for z in V]
+new_tick_locations = np.sqrt(N)
+ax2.set_xlim(ax1.get_xlim())
+ax2.set_xticks(new_tick_locations)
+ax2.set_xticklabels(tick_function(new_tick_locations))
+# clean up
+ax1.set_xlabel(r"410 Mpc / $d$")
+    ax2.set_xlabel(r"$N$")
+ax1.set_ylabel(r"t^0_{33}$ (ms)")
+ax1.set_xlim(1, max(np.sqrt(N)))
+plt.savefig('img/tcut.png')
+plt.savefig('pdf/tcut.pdf')
+</pre>
+
+
+<hr>
+<h2>Example Code</h2>
+<b>Gravitational-wave spectrum:</b> compare the noise amplitude spectral density of gravitational-wave detectors to the characteristic strain of a binary neutron star signal. This example illustrates:
+<ul>
+<li> importing lal and lalsimulation
+<li> application of antenna factors
+<li> use lal to generate a gravitational waveform
+<li> making a nice looking plot
+<li> comparing noise curves to characteristic strain; recommended for matched filter searches or you will find that even very loud signals can fall way below the noise curve
+</ul>
+Code
+<ul>
+<li> data files: ligo_hf_psd.txt, sly_frequency_domain.txt, tidal_40Mpc_Lambda0.dat, OzMO1.dat, tidal_100Mpc_Lambda500.dat, AplusDesign.txt
+<li> python scripts: <a href="examples/ozgravhf/get_tidal_waveform.py">get_tidal_waveform.py</a> (to generate a BNS waveform using LAL), <a href="examples/ozgravhf/get_tidal_waveform.py">get_tidal_waveform.py</a> (to make the spectrum plot)
+<li> <a href="examples/ozgravhf/ozgravhf.tar.gz">ozgravhf.tar.gz</a>
+</ul>
+<br><br>
+
+
+<hr>
+<h2>Expert</h2>
+<b>multi-threading:</b> mpirun -n 32 python your_code.py<br><br>
+
+<b>what's the difference between .py files and .pyc files?</b>
+"Python automatically compiles your script to compiled code, so called byte code, before running it. When a module is imported for the first time, or when the source is more recent than the current compiled file, a .pyc file containing the compiled code will usually be created in the same directory as the .py file."<br><br>
+
+<hr>
+<h2>hdf5, h5</h2>
+For information about loading, parsing, and browsing hdf5 files with python, please see the <a href="../hdf5/">hdf5</a> page.<br><br>
+
+<!--
+<HR>
+<H3>Applications for LIGO</h3>
+Additional source code is in the <a href="plib">plib</a> directory.<br><br>
+
+<B>generating CBC time series:</b> <a href="plib/cbc_timeseries_example.py">cbc_timeseries_example.py</a><br><br>
+-->
+
+<br>
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
