@@ -1,0 +1,238 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+ <title>vi</title> </head>
+
+<body>
+<h1>vi basics</h1>
+
+<p><b>To use the insert mode, type</b>: <br>
+<ul>
+  <li><tt>i</tt> for inserting text <b>before the cursor</b></li>
+  <li><tt>a</tt> for inserting text <b>after the cursor</b></li>
+  <li><tt>A</tt> for inserting text <b>at end of line</b></li>
+  <li><tt>o</tt> for inserting text <b>in new line below cursor</b></li>
+  <li><tt>O</tt> for inserting text <b>in new line above cursor</b></li>
+</ul>
+Now you can enter text and use <i>Backspace</i> to overwrite
+previously entered characters. For moving around and other operations you must
+first change to <i>command mode</i>.
+<br><br>
+
+<b>To get into command mode</b> press <em>Esc</em>.
+Press <i>Return</i> after all commands
+starting with <tt>:</tt>, <tt>/</tt>, <tt>?</tt>. Use <i>Ctrl-</i><tt>c</tt>
+to abort a command.
+<br><br>
+<table border="1" cellspacing="0" cellpadding="3">
+  <tbody>
+    <tr>
+      <th colspan="3" align="left"><font size="+2"><em>File
+        commands</em></font></th>
+    </tr>
+    <tr>
+      <th rowspan="3" align="left">Quit</th>
+      <td><tt>:q</tt></td>
+      <td>if file is saved</td>
+    </tr>
+    <tr>
+      <td><tt>:wq</tt></td>
+      <td>save &amp; quit</td>
+    </tr>
+    <tr>
+      <td><tt>:q!</tt></td>
+      <td>quit without saving</td>
+    </tr>
+    <tr>
+      <th align="left">Save</th>
+      <td><tt>:w</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th align="left">Save As</th>
+      <td><tt>:w</tt> <em>file</em></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th rowspan="2" align="left">Open</th>
+      <td><tt>:e</tt> <em>file</em></td>
+      <td>if current file is saved</td>
+    </tr>
+    <tr>
+      <td><tt>:e!</tt> <em>file</em></td>
+      <td>without saving current file</td>
+    </tr>
+    <tr>
+      <th align="left">Insert File</th>
+      <td><tt>:r</tt> <em>file</em></td>
+      <td>below current line</td>
+    </tr>
+    <tr>
+      <th colspan="3" align="left"><font size="+2"><em>Edit
+        commands</em></font></th>
+    </tr>
+    <tr>
+      <th rowspan="2" align="left">Undo</th>
+      <td><tt>u</tt></td>
+      <td>last change</td>
+    </tr>
+    <tr>
+      <td><tt>U</tt></td>
+      <td>changes in current line</td>
+    </tr>
+    <tr>
+      <th align="left">Mark Beginning of Block</th>
+      <td><tt>m</tt><em>x</em></td>
+      <td>set mark <em>x</em> (<em>x</em> may be any letter)</td>
+    </tr>
+    <tr>
+      <th align="left">Mark End of Block and ``<em>Copy</em>''</th>
+      <td><tt>y`</tt><em>x</em></td>
+      <td>yank from here to mark <em>x</em> into buffer</td>
+    </tr>
+    <tr>
+      <th align="left">Mark End of Block and ``<em>Cut</em>''</th>
+      <td><tt>d`</tt><em>x</em></td>
+      <td>delete from here to mark <em>x</em> into buffer</td>
+    </tr>
+    <tr>
+      <th rowspan="2" align="left">``<em>Paste</em>''  <a href="#note">*</a></th>
+      <td><tt>P</tt></td>
+      <td>put buffer before cursor</td>
+    </tr>
+    <tr>
+      <td><tt>p</tt></td>
+      <td>put buffer after cursor</td>
+    </tr>
+    <tr>
+      <th align="left">Delete Character</th>
+      <td><tt>x</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th align="left">Delete Line</th>
+      <td><tt>dd</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th align="left">Join Line with Next Line</th>
+      <td><tt>J</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th colspan="3" align="left"><font size="+2"><em>Search commands</em></font></th>
+    </tr>
+    <tr>
+      <th align="left">Search Forward</th>
+      <td><tt>/</tt><em>string</em></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th align="left">Search Backward</th>
+      <td><tt>?</tt><em>string</em></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th align="left">Repeat Last Search</th>
+      <td><tt>n</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th align="left">Replace, query each</th>
+      <td><tt>:,$s/</tt><em>string1</em><tt>/</tt><em>string2</em><tt>/gc</tt></td>
+      <td>enter <tt>y</tt> <em>Return</em> or <em>Return</em></td>
+    </tr>
+    <tr>
+      <th align="left">Replace all</th>
+      <td><tt>:,$s/</tt><em>string1</em><tt>/</tt><em>string2</em><tt>/g</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th colspan="3" align="left"><font size="+2"><em>Navigation commands</em></font></th>
+    </tr>
+    <tr>
+      <th align="left">Left, Right, Up, Down</th>
+      <td><tt>h</tt> , <tt>l</tt> , <tt>k</tt> , <tt>j</tt></td>
+      <td>arrow keys may also work</td>
+    </tr>
+    <tr>
+      <th align="left">1 Screen Forward, Backward</th>
+      <td><em>Ctrl-</em><tt>f</tt> , <em>Ctrl-</em><tt>b</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th align="left">Beginning, End of File</th>
+      <td><tt>1G</tt> ,  <tt>G</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th align="left">Beginning, End of Line</th>
+      <td><tt>0</tt> , <tt>$</tt></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th align="left">Go to Line <em>number</em></th>
+      <td><tt>:</tt><em>number</em> or <em>number</em> <tt>G</tt></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="note">A note about <tt>P</tt>, <tt>p</tt></a></h3>
+With <tt>P</tt>, <tt>p</tt> you can paste the text from the last delete
+operation with <tt>d`</tt><em>x</em> or <tt>dd</tt>. If you want to use
+<tt>dd</tt> without losing a previously saved block, then you have to use a
+<em>named buffer</em> (any letter can be used for <em>z</em>):
+
+<table border="1" cellspacing="0" cellpadding="3">
+  <tbody>
+    <tr>
+      <th align="left">Mark Beginning of Block</th>
+      <td><tt>m</tt><em>x</em></td>
+      <td>set mark <em>x</em></td>
+    </tr>
+    <tr>
+      <th align="left">Mark End of Block and ``<em>Copy</em>''</th>
+      <td><tt>"</tt><em>z</em><tt>y`</tt><em>x</em></td>
+      <td>yank from here to mark <em>x</em> into buffer <em>z</em></td>
+    </tr>
+    <tr>
+      <th align="left">Mark End of Block and ``<em>Cut</em>''</th>
+      <td><tt>"</tt><em>z</em><tt>d`</tt><em>x</em></td>
+      <td>delete from here to mark <em>x</em> into buffer <em>z</em></td>
+    </tr>
+    <tr>
+      <th rowspan="2" align="left">``<em>Paste</em>''</th>
+      <td><tt>"</tt><em>z</em><tt>P</tt></td>
+      <td>put buffer  <em>z</em> before cursor</td>
+    </tr>
+    <tr>
+      <td><tt>"</tt><em>z</em><tt>p</tt></td>
+      <td>put buffer  <em>z</em> after cursor</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<hr>
+<h2>Eric's Tips:</h2> 
+<b>delete 123 lines at once:</b> d123d <br>
+<br>
+
+<hr>
+<h2>More information: <a href="https://engineering.purdue.edu/ECN/Resources/KnowledgeBase/Docs/20020202121609">vi
+Tutorial</a>,  <a href="http://www.ungerhu.com/jxh/vi.html">vi
+Reference</a></h2>
+<hr>
+
+This page is based on html by Tobias von Petersdorff.
+<br><br>
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
