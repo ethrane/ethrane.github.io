@@ -1,0 +1,258 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1>perl</h1>
+<br>
+ 
+perl is a handy language that's more powerful than shell programming, but less formal and time-consuming than C++. &nbsp;
+It uses the same ideas of <i>metacharacters</i> and <i>regular expressions</i> that are used by grep, awk, and sed. &nbsp;
+(For more about metacharacters, see my <a href="../sed">sed</a> webpage.)
+<br><br>
+
+<b>Example 1: cosmic.pl</b><br>
+This script looks in a C++ header file for a marker string, which is supplied at the command line;
+(it takes the following forms: "sk1marker" "sk2marker" "sk3marker".) &nbsp;
+Then the script finds the line containing the input string and deletes everything that is not a number or a space from that line. &nbsp;
+Then it deletes leading space. &nbsp;
+The split function takes a string as its first argument ("&nbsp;") and a regular expression ($_) as its second argument. &nbsp;
+It returns a list of values from the regular expression that are separated by the a space, which in this case, correspond to three numbers. &nbsp;
+Like C, the array/list is numbered beginning with 0. &nbsp;
+Last, the program adds the (three) numbers and prints their sum to the standard output.
+<pre>
+#! /usr/bin/perl
+#syntax: cosmic.pl skxmarker cosmic.h
+$input = shift;
+while (&lt;&gt;) {
+    if (/$input/) {
+        s/[^0-9 ]//g;
+        s/^ *//;
+        @nums = split (/ /,$_);
+        $answer = $nums[0] + $nums[1] + $nums[2];
+        print $answer
+    }
+}
+</pre>
+
+<b>To define an array (w/o using split):</b> @p3 = (46,78,67); <br>
+<b>To define a multidimensional array:</b> @test = ( [1,2], [3,4], [5,6] ); <br>
+<b>To define an array of arrays:</b> <br>
+@t1 = (1,2); <br>
+@t2 = (3,4); <br>
+@test = (\@t1, \@t2); <br>
+<br>
+
+<b>Example 2: scramble.pl</b><br>
+This script reads in a file and spits out the lines in a random order. &nbsp;
+Notice, that $#ARGV+1 is the equivalent of argc in C++. &nbsp; 
+Also notice that it goes down by one value, when you shift perform the shift command. &nbsp;
+The dot operators concatenate strings. &nbsp;
+The int() function converts floats to integers.
+<br>
+
+<pre>
+#! /usr/bin/perl
+if($#ARGV+1 ==0 ) {print "syntax: scramble.pl filename outlines\n"; exit;}
+$filename = shift;
+$outlines = shift;
+$nlines = `~ethrane/bin/lc.csh $filename`;
+if($outlines &gt; $nlines) {print "outlines &gt; nlines\n"; exit;}
+
+$x = 0;
+while ($x &lt; $nlines) {$array[$x] = 0; $x++;}
+
+$x = 0;
+while ($x &lt; $outlines) {
+    $ok = 0;
+    $l = int(rand($nlines))+1;
+    while ($ok == 0) { 
+        if($array[$l] == 0) {
+            $ok=1; $array[$l]=1;
+            open(file, $filename);
+            while(<file>) {if($.==$l) {print $_;}}
+            close(file);
+        }
+        $l++; if($l &gt; $nlines) {$l += -$nlines;}
+    }
+    $x++;
+}
+</pre>
+
+<b>Example 3: <a href="../NQS/qclean.pl">qclean.pl</a></b><br>
+This script sleeps for 10 seconds, then erases .log and .err files from a batch NQS submission before going back to sleep. &nbsp;
+It runs for 3 hours or until NQS is idle. <br>
+<br>
+ 
+<b>To execute unix commands from within a perl script:</b> system "ls"; <br>
+<b>To kill UNIX jobs:</b> <pre>
+# kill all open pine sessions
+system 'killall', 'pine';
+
+# open a new pine session
+system "pine";
+</pre>
+<b>To set perl variables using unix commands:</b> $test = `ls`;<br>
+<br>
+
+<b>Example 4: math.pl</b><br>
+Looks for the regular expression "Out.*" (from the Mathematica kernel.) &nbsp;
+Deletes all other lines and converts output into C++ style scientific notation. <pre>
+#! /usr/bin/perl
+
+while (&lt;&gt;) {
+    if(/Out.*/){
+        s/Out\[.*\]= //;
+        s/ 10\n//;
+        print ($_,"E",$exp);
+    }
+    s/ *//;
+    $exp = $_;
+}</pre>
+ 
+<b>Example 5: <a href="RunTheta.pl">RunTheta.pl</a></b>  <br>
+In this example, we use a <i>foreach</i> loop to loop over muon energies. &nbsp;
+We use the commands <i>open</i> and <i>close</i> to read an input file and write to an output file. <br>
+<br>
+<b>To open an input file:</b> <br>
+open(input, "./input.dat"); <br>
+#multiply each line by 3 and print the result. <br>
+while (&lt;input&gt;) {print $_*3;} <br>
+close(input); <br>
+<b>To open an output file:</b> <br>
+open(output, "&gt;&gt;./output.dat"); <br>
+print output ($x,"\n"); <br>
+close(output); <br>
+<br>
+
+<b>Example 6: <a href="Part2.pl">Part2.pl</a></b> <br>
+Loop over files that end in ".dat" with a foreach loop. &nbsp;
+Use the command <i>chomp</i> to remove a trailing line break. <br>
+<br>
+<b>To loop over files in the directory "tmp/" that end in ".dat":</b> foreach $file (&lt;./tmp/*.dat&gt;) { ... } <br>
+<b>Another way to examine the contents of a directory:</b> <pre>
+opendir(DIR, "./tmp");
+@list = readdir(DIR);
+closedir(DIR);
+foreach $file (@list) { ... }
+</pre>
+<b>Does a directory exist?</b> if (-d $dirname) { ...<br>
+<b>To delete the trailing line break from the variable $x:</b> chomp($x); <br>
+<br>
+
+
+<b>Example 7:</b> sort_bib.pl<br>
+Change the order of entries in a bibtex file so that the last entries come first and the first entries come last.
+<pre>
+#! /usr/bin/perl5.30
+
+$i = -1;
+while (&lt;&gt;) {
+    # if the line defines a shortcut (string), it is not a bibtex entry
+    if ($_ =~ m/\@String.*/) {print "$_";}
+    # if the line begins with % it is a comment, not a bibtex entry
+    elsif ($_ =~ /\%.*/) {print $_;}
+    # skip over white space
+    elsif (/^\s*$/) {}
+    else {
+    # bibtex entries begin with @
+    if ($_ =~ m/\@.*/) {
+        $i++;
+        $entries[$i] = $_;
+    }
+    # still part of the same bibtex entry
+    else {
+        $entries[$i] = $entries[$i].$_;
+    }
+    }
+}
+
+# create extra space between strings and bib entries
+print "\n";
+
+# print entries in reverse order
+for ($j=$i; $j&gt;=0; $j--) {
+    print $entries[$j]."\n";
+}
+
+# print bib entries in order with numbers (testing only)
+#for ($j=0; $j&lt;=$i; $j++) {
+#    print "########### $j ###########\n";
+#    print $entries[$j];
+#}
+</pre>
+
+
+<b>Example 8:</b> Prepare a bib entry for upload to RMS: <a href="./sort_bib_arc.pl">sort_bib_arc.pl</a>. <br><br>
+
+
+
+<b>To substitute/replace a string in a perl variable:</b> <br>
+$x = "The height is zpos.\n" <br>
+$x =~ s/zpos/-100/; <br>
+print $x; <br>
+<i>The height is -100.</i> <br>
+<br>
+<b>To access UNIX environmental variables from Perl:</b> $out = "$ENV{'workdir'}"; <br>
+<b>To test if a variable contains a certain regular expression:</b> if($varb =~ m/[0-9]\.5/) {print $varb;} <i>("m" is for "match.")</i><br>
+<b>The line number in the current open file:</b> $. <br> 
+<b>or alternatively:</b> <br>
+open $fh, "findjobs.out";<br>
+my @lines = &lt;$fh&gt;;<br>
+print "$lines[3]"<br>
+<b>To create a sub-function:</b> <pre>
+sub short {
+    $_[0] = int($_[0])."."    #$_[0] is the 0th argument of short().
+} </pre>
+
+<b>To use a trigonmetric function:</b> <br>
+use Math::Trig; <br>
+print acos(-1);<br>
+<b>a for loop:</b> for ($i=0; $i&lt;12; $i++) {$dtheta += rand();} <br>
+<br>
+
+<b>To compare the values of two strings:</b> if($table eq "swift_grb_table.dat") <br>
+<br>
+<b>To remove extra white space:</b> $_ =~ s/\s+/ /g; <br>
+<b>To remove ^M characters created by Microsoft Excel:</b> $_ =~ s/\015/\n/g; <br>
+<br>
+<b>To open two input files at once:</b> <pre>
+open(input1, "input1.dat");
+while($x=&lt;input1&gt;){
+      open(input2, "input2.dat");
+      while($y=&lt;input2&gt;){
+      ...
+</pre>
+<b>or better yet:</b> while ($q=&lt;file&gt;,$n=&lt;nfile&gt;) { <br>
+
+<b>To call perl from within a csh script:</b><pre>
+setenv fres `perl -e '{  \
+  $fres = sqrt(13);\
+  print $fres;\
+}'`
+</pre>
+
+<b>To access environmental variables in perl:</b> $x = $ENV{'PATH'}; <br><br>
+
+<b>sort:</b> @sorted = sort @array; <br>
+<b>array size:</b> $size = $#array;<br><br>
+
+<b>numerical precision:</b> $x==sprintf("%.3f",$x); <br><br>
+
+<b>open two files at once:</b>
+open(trial100, "./trial100.list"); <br>
+open(tmp,"&gt;tmp.txt"); <br>
+while($x = <trial100>){  # $x is like $_ <br>
+<br><br>
+
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
