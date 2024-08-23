@@ -1,0 +1,48 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+ 
+<h1>Your first Condor Submission</h1>
+<p style="margin-right:10cm;">Condor is a parallel computing platform, so you can use it to run multiple jobs simultaneously, significantly reducing your computing time. The goal of this tutorial is to successfully submit a job to condor that will print "Hello world!" ten times. The ingredients of this simple example will serve as the starting point for future submissions.</p>
+<h2>You will need...</h2>
+<ol>
+<li>An executable - This is the program or script that you want to use condor to run.
+<li>A .sub file - This file describes the job that will be running.
+<li>A .dag file - This creates a list of the jobs and specifies file path inclusions.
+<li>A wrapper - This is another script that is called by the .sub file and points to the executable we want to run.
+</ol>
+<h3>The executable</h3>
+<p>Let's make a shell script that simply prints "Hello World!" to the screen. Copy and paste the code below to a file called "helloWorld.sh".</p>
+<font face="courier">
+<p style="font-size: 75%;">#!/bin/bash
+<br>#file name: helloWorld.sh
+<br>echo "Hello world!"</p>
+</font>
+<h3>The .sub file</h3>
+<font face="courier">
+<p style="font-size: 75%;">universe = vanilla
+<br>executable = /home/sylvia.biscoveanu/condor/condor.sh
+<br>log = /home/sylvia.biscoveanu/condor/logs/condor.log
+<br>error = /home/sylvia.biscoveanu/condor/logs/condor_$(jobNumber).err
+<br>output = /home/sylvia.biscoveanu/condor/logs/condor_$(jobNumber).out
+<br>arguments = $(jobNumber)
+<br>accounting_group = ligo.prod.o1.sgwb.explore.test
+<br>notification = error
+<br>request_memory = 4000
+<br>queue 1</p>
+</font>
+<p style="margin-right:10cm;">The above code should be saved as "condor.sub". All file paths should be replaced with your desired output location, but the file names can stay the same. The accounting_group tag is only if running condor through the LIGO Data Grid and depends on which group you are working with. You can calculate the appropriate tag <a href="https://ldas-gridmon.ligo.caltech.edu/ldg_accounting/user" target="_blank">here</a>.
+<h3>The .dag file</h3>
+<p style="margin-right:10cm;"> Download the following perl script to create your .dag file: <a href="https://ldas-jobs.ligo.caltech.edu/~sylvia.biscoveanu/Helpful%20Hints/condor/dag.pl">dag.pl</a> Several fields will need to be modified. Replace all paths that include "sylvia.biscoveanu" and rename "sylvia.dag" in the line after the $LIB specification. $njobs can be changed, but for now we have set it to 10. If you run this script in the command line using <font face="courier new"> perl dag.pl </font> a new .dag file will be created based on whatever you decided to call it. It should look like <a href="https://ldas-jobs.ligo.caltech.edu/~sylvia.biscoveanu/Helpful%20Hints/condor/sylvia.dag" target="_blank">this</a>.</p>
+<h3>The wrapper</h3>
+<p style="margin-right:10cm;">While you could tell condor.sub to point directly to the helloWorld.sh executable, it is safer to point to a wrapper that calls helloWorld.sh indirectly. This allows us to set up environment variables and ensure that the first job always runs successfully. A sample wrapper can be downloaded <a href="https://ldas-jobs.ligo.caltech.edu/~sylvia.biscoveanu/Helpful%20Hints/condor/condor.sh">here</a>. The memory limit can be changed, but it is currently set for 4GB. This is more than enough for our submission. Change the path to the hostname and OUTPUTFILE. This is where "Hello World!" will be printed along with the job number.
+<h2>Testing and submitting</h2>
+<p style="margin-right:10cm;">Test your wrapper in the terminal before submitting to condor by typing <font face="courier new"> condor.sh 0</font> into the command line. 0 refers to the job number and can actually be any number from 0-10 since that's how many jobs we have. You should have a new file called output.log that looks like this:</p>
+<font face="courier new"><p style="font-size: 75%;">Job number 0
+<br>"Hello world!"</font></p>
+<p style="margin-right:10cm;">If this file was produced, you are ready to try running your program on condor! To do this, simply type the following into the command line: <font face="courier new"> condor_submit_dag sylvia.dag</font> but replace "sylvia.dag" with the name of your dag file. You will see several new files created in the directory from which you ran condor. The file called "sylvia.dag.dagman.out" (or whatever you called your .dag file) will be the most useful since it contains that output that condor produces when running the program. You can see if there were any errors or check on the progress of your submission in this file.</p>
+<h2>Congratulations, you have successfully submitted your first condor job! Happy programming!</h2>
+</body>
+</html>
