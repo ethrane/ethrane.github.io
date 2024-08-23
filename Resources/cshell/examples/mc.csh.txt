@@ -1,0 +1,17 @@
+#! /bin/csh -f
+set thisdir = `pwd`
+set outdir = /disk/upmu/sk-1/shower
+#----MC with bug fix:--------------------------------------------
+#SK-I data-----------------------
+set dir = /disk/upmu/sk-1/neutzbs
+cd $dir
+set list = `ls *.rej`
+#----------------------------------------------------------------
+cd $thisdir
+foreach file ($list)
+    echo "cd ${thisdir}" >! NQS/$file.csh
+    echo "upmu3.sh ${dir}/${file} ${outdir}/${file}" >> NQS/$file.csh
+    if(! -e $outdir/$file) then
+       qsub NQS/$file.csh
+    endif
+end
