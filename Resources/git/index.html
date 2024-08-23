@@ -1,0 +1,110 @@
+<html>
+<head>
+  <title>Eric H. Thrane</title>
+<head>
+
+
+<title>Eric H. Thrane</title>
+</head>
+
+<body>
+<h1 align="center">git</h1>
+<br>
+
+git is a version control scheme like svn or cvs.<br><br>
+
+<h3>Basics</h3>
+<b>checking out a git.ligo repository:</b> git clone git@git.ligo.org:sylvia.biscoveanu/parambul8er.git<br>
+Enter ssh-keygen password for eric.thrane password stored on git.ligo.org.<br>
+<b>Update:</b> After updating to Mac OS 10.15.6 Catalina, I lost command line access to git.
+Following advice from collaborators, I installed git-lfs:
+<pre>
+sudo port install git-lfs
+</pre>
+This enabled me to access git again from the command line.
+However, I received a password prompt for every single file.
+I checked the web for how to get rid of that.
+Apparently, I need to switch my git commands to look like this:
+<pre>
+git lfs clone git@git.ligo.org:publications/O3/o3-pop.git
+</pre>
+That seems to get rid of the password prompts.
+<br><br>
+
+<b>Check out a repository with git:</b> git clone albert.einstein@severname/repo.git <br>
+<b>from git hub:</b> git clone https://github.com/tcallister/spotlightFollowup.git <br>
+<b>to get the latest changes:</b> git pull <br>
+<b>to commit your own changes:</b><br>
+First: "git pull" to get other updates.
+(If you don't do this first, and there are conflicts, you will not be allowed to commit.)<br>
+Second: "git commit" to locally commit files. You're not done yet, though.<br>
+Third: "git push" to actually send the locally committed files to the repository.<br>
+<b>In order to see what needs to be git committed,</b> type "git status" from the parent directory. Everything labeled "modified" needs to be committed.
+
+<b>free private repositories on git hub:</b>
+https://education.github.com/guide/private_repos<br>
+Use your university email account.<br><br>
+
+<h3>Managing SSH Keys</h3>
+If you are invited to join a colleagues git repository, you may receive a message like the following when you attempt to clone:<pre>
+  git clone git@gitmaster.atlas.aei.uni-hannover.de:horizon/horizon_text.git
+  Cloning into 'horizon_text'...
+  The authenticity of host 'gitmaster.atlas.aei.uni-hannover.de (130.75.116.218)' can't be established.
+  RSA key fingerprint is 09:44:a4:e3:8c:c8:90:0a:7a:13:79:6c:dd:60:56:1c.
+  Are you sure you want to continue connecting (yes/no)? yes
+  Warning: Permanently added 'gitmaster.atlas.aei.uni-hannover.de,130.75.116.218' (RSA) to the list of known hosts.
+  Permission denied (publickey).
+  fatal: Could not read from remote repository.
+  Please make sure you have the correct access rights and the repository exists.</pre>
+Or...<pre>
+  bash-3.2$ git clone git@bitbucket.org:thebestsearch/tbs_scripts.git
+  Cloning into 'tbs_scripts'...
+  Permission denied (publickey).
+  fatal: Could not read from remote repository.
+  Please make sure you have the correct access rights
+  and the repository exists.</pre>
+These messages may indicate that you need to supply an ssh key.
+The first step is to see if you already have an ssh key with: cat ~/.ssh/id_rsa.pub.
+If this file does not exist, you need to create an ssh key with ssh-keygen.
+Once the ssh key exists, log on to the web page hosting the repository.
+The system is different on every hosting service, but on bitbucket, click on the little person icon &gt; Settings.
+From there, click on Security &gt; SSH Keys.
+Now, you will have an opportunity to paste in your ssh key.
+The cleanest way to do it is: cat ~/.ssh/id_rsa.pub | pbcopy.
+(That's a neat trick for copying text from a file into your copy/paste buffer.)
+Paste in the ssh key, click "add," and you should be able to clone.
+<br><br>
+
+<h3>Controlling access to git repositories</h3>
+These instructions are geared for git.ligo.org.
+<b>First</b>, navigate to the project you want to share/hide.
+You can navigate to projects by clicking on your name in the upper lefthand corner.
+Then the projects will appear on the bottom of the page; click on the project to share.
+<b>Second,</b> once you have clicked on your project, a little gear icon (representing settings) will appear on the top-right part of the page.
+Click on the gear and select "Settings."
+Now, you can change your visibility level to Private, Internal, or Public.
+<br><br>
+
+<h3>Debugging</h3>
+
+<b>How do I get rid of this git clone error?</b><br>
+fatal: unable to access 'https://versions.ligo.org/git/lalsuite.git/': Protocol https not supported or disabled in libcurl<br>
+<b>Answer:</b> unset LD_LIBRARY_PATH<br><br>
+
+<b>Updating Cardiff's git repository on pcdev2:</b><pre>
+unset LD_LIBRARY_PATH
+git config --global user.name "Eric Thrane"
+git config --global user.email "eric.thrane@ligo.org"
+LIGO_USER=eric.thrane
+git config --global alias.auth '!ecp-cookie-init LIGO.ORG https://gravity.astro.cf.ac.uk/git/secure/ '${LIGO_USER}''
+git auth
+git pull
+</pre>
+
+<br><br>
+<p align="CENTER"><a href="../">Back to Resources</a></p>
+<hr size="4">
+<img src="../../img/eric.thrane.png" width="168" height="18">
+
+</body>
+</html>
