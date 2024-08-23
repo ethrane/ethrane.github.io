@@ -1,0 +1,9 @@
+universe = vanilla
+executable = /home/ethrane/condor.sh
+RequestMemory = 1024
+log =  /atlas/user/atlas1/ethrane/condor.log
+error = condor_$(jobNumber).err
+output = condor_$(jobNumber).out
+arguments = $(jobNumber)
+notification = error
+queue 1
