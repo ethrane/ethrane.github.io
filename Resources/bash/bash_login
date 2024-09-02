@@ -1,0 +1,50 @@
+# shortcuts for common commands
+alias emacs="/Applications/Utilities/Emacs.app/Contents/MacOS/Emacs -nw"
+export monash=erict@users.monash.edu
+alias monash="ssh $monash"
+alias python="python3"
+alias pip="pip3"
+
+# LIGO/ozstar shortcuts
+export ozstar=ethrane@nt.swin.edu.au
+export grid=eric.thrane@ldas-grid.ligo.caltech.edu
+export pcdev1=eric.thrane@ldas-pcdev1.ligo.caltech.edu
+export pcdev2=eric.thrane@ldas-pcdev2.ligo.caltech.edu
+export pcdev3=eric.thrane@ldas-pcdev3.ligo.caltech.edu
+export pcdev4=eric.thrane@ldas-pcdev4.ligo.caltech.edu
+export pcdev5=eric.thrane@ldas-pcdev5.ligo.caltech.edu
+alias grid="ssh $grid"
+alias pcdev1="ssh $pcdev1"
+alias pcdev2="ssh $pcdev2"
+alias pcdev3="ssh $pcdev3"
+alias pcdev4="ssh $pcdev4"
+alias pcdev5="ssh $pcdev5"
+alias ozstar="ssh $ozstar"
+ozscp() {
+  if [ ! -d "/Users/erict/Documents/Work/ozstar/$1" ]; then
+    mkdir "/Users/erict/Documents/Work/ozstar/$1"
+  fi
+  if [ ! -d "/Users/erict/Documents/Work/ozstar/$1/img/" ]; then
+      mkdir "/Users/erict/Documents/Work/ozstar/$1/img/"
+  fi
+  scp -r $ozstar:projects/"$1"/img/*.png /Users/erict/Documents/Work/ozstar/"$1"/img/
+}
+
+alias ligo="ssh eric.thrane@ssh.ligo.org"
+
+# git shortcuts
+alias commit="git commit -m \"commit\""
+alias publish="python -m webbrowser 'https://github.com/ethrane/ethrane.github.io/releases/new'"
+
+# add to path
+PATH=$PATH:/opt/homebrew/bin/
+#PATH=$PATH:/Users/erict/Library/Python/3.9/bin
+
+##
+# Your previous /Users/erict/.bash_login file was backed up as /Users/erict/.bash_login.macports-saved_2023-08-18_at_09:54:00
+##
+
+# MacPorts Installer addition on 2023-08-18_at_09:54:00: adding an appropriate PATH variable for use with MacPorts.
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+
