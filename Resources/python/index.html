@@ -488,23 +488,7 @@ plt.savefig('f22_f33.png');  plt.savefig('f22_f33.pdf')
 </pre>
 
 <b>Using latex in labels.</b>
-The following commands will do it...
-<pre>
-plt.rc('text', usetex=True)
-plt.rc('font', family='serif')
-</pre>
-...but an easier solution is to modify your matplotlibrc file to include the following commands:
-<pre>
-backend: Agg
-text.usetex : true
-font.family : Times New Roman
-</pre>
-To find your matplotlibrc file, try the following command from the unix command line:
-<pre>
-/home/ethrane/.local/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc
-</pre>
-The settings in this file control matplotlib.
-If you do not have one, you can create one here: ~/.matplotlib/matplotlibrc<br><br>
+plt.xlabel(r'$\chi_{eff}$')<br><bR>
 
 <b>How do I get rid of this matplotlib error?</b>
 <pre>
