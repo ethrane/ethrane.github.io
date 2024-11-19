@@ -32,7 +32,7 @@ alias presub='condor_submit_dag -maxjobs 40'<br>
 condor_q -hold -long your_user_name grep '^HoldReason ='<br>
 <b>cancel a submission:</b> condor_rm ID <br>
 <b>condor_status</b>: lists all the nodes available, their memory, and other useful information</b><br>
-<b>condor_userprio -all:</b> lists condor users and their priority; (lower "Effective priority" numbers are given more resources<br>
+<b>condor_userprio -all:</b> lists condor users and their priority; (lower "Effective priority" numbers are given more resources. (If you run a lot of jobs that all try to write to the head node simultaneously, this can limit your maximum number of jobs!)<br>
 <b>condor_q -long ID#</b> gives detailed information about your job including "RequestMemory" (how much memory you asked for) and "ImageSize" (how much memory you ended up using<br>
 <b>condor_ssh_to_job</b> can be used to run top on the node where your job is actually executing.  This is useful for debugging.<br>
 
